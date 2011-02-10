@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+  <bean id="adresseService"  class="fr.paris.lutece.plugins.address.service.DummyAddressService">
+  	 <property name="urlWS" value=""/>
+  	 <property name="defaultCity" value="paris"/>
+  	 <property name="dateSearch" value="20070201"/>
+  	 <property name="userName" value=""/>
+  	 <property name="password" value=""/>
+  	 <property name="timeOut" value=""/>	<!-- 1000 = 1 second -->
+  </bean>
+
+</beans>

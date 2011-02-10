@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="cartereponse">
+			<xs:complexType>
+			<xs:sequence>
+				<xs:element name="numero" type="numero" maxOccurs="1"/>
+				<xs:element name="date" type="xs:dateTime" maxOccurs="1"/>
+				<xs:element name="famille1" type="famille" maxOccurs="1"/>
+				<xs:element name="famille2" type="famille" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:simpleType name="numero">
+		<xs:restriction base="xs:string">
+		<xs:pattern value="[A-Z][0-9]{5}"/>
+		<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="famille">
+		<xs:sequence>
+			<xs:element name="nom" type="type_nom" />
+			<xs:element name="prenom" type="type_prenom" />	
+			<xs:element name="telephone" type="type_telephone" minOccurs="0" />
+			<xs:element name="courriel" type="type_courriel" minOccurs="0" />	
+			<xs:element name="nb-enfant" type="xs:positiveInteger" /> 
+			<xs:element name="adresse" type="adresse" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="adresse">
+
+		<xs:sequence>
+			<xs:element name="dunumero" type="xs:positiveInteger"/>
+			<xs:element name="dubis" type="type_bis" minOccurs="0"/>
+			<xs:element name="aunumero" type="type_adresse" minOccurs="0"/>
+			<xs:element name="aubis" type="type_bis" minOccurs="0"/>
+			<xs:element name="type-voie" type="type_voie" />
+			<xs:element name="libelle-voie" type="type_adresse" />
+			<xs:element name="complement1-adresse" type="type_adresse" minOccurs="0"/>
+			<xs:element name="complement2-adresse" type="type_adresse" minOccurs="0" />
+			<xs:element name="ville" type="xs:string" default="PARIS" />
+			<xs:element name="code-commune" type="type_code_insee" />
+			<xs:element name="geo_x" type="xs:float"/>
+			<xs:element name="geo_y" type="xs:float"/>
+		</xs:sequence>
+		<xs:attribute name="iadresse" type="xs:positiveInteger" use="required"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="type_telephone">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="[0-9]{10}"/>
+				<xs:maxLength value="10"/>
+			</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_nom">
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="70"/>
+			</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_prenom">
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_code_insee">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="[0-9]{5}"/>
+				<xs:maxLength value="5"/>
+			</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_adresse">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_bis">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1"/> <!-- code de une lettre plutôt que libellé -->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_voie">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="type_courriel">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+</xs:schema>

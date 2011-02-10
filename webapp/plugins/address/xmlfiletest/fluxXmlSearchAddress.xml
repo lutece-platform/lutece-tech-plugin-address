@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<adresses>
+	<adresse geometry='POINT (603436.520012229 129647.61000802275)' identifiant="11" numero='2' typeVoie='BOULEVARD DE' nomVoie='BELLEVILLE' commune='PARIS-20E--ARRONDISSEMENT' />
+	<adresse geometry='POINT (603959.6767807163 130630.17391293784)' identifiant="22" numero='2' typeVoie='CITE DU' nomVoie='PALAIS ROYAL DE BELLEVILLE' commune='PARIS-19E--ARRONDISSEMENT' />
+	<adresse geometry='POINT (602999.4299958219 130185.55000852374)' identifiant="33" numero='2' typeVoie='RUE DE' nomVoie='BELLEVILLE' commune='PARIS-20E--ARRONDISSEMENT' />
+	<adresse geometry='POINT (603376.0752121727 129769.58162413634)' identifiant="44" numero='2' typeVoie='SQUARE DU' nomVoie='NOUVEAU BELLEVILLE' commune='PARIS-20E--ARRONDISSEMENT' />
+	<adresse geometry='POINT (604805.597229504 130403.66591272688)' identifiant="55" numero='2' suffixe='1' typeVoie='VILLA DES' nomVoie='HAUTS DE BELLEVILLE' commune='PARIS-20E--ARRONDISSEMENT' />-->
+</adresses>

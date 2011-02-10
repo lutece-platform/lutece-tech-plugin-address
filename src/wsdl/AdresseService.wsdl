@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://services.adresses.paris.fr" xmlns:tns="http://services.adresses.paris.fr" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" xmlns:ns1="http://exceptions.adresses.paris.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.adresses.paris.fr">
+<xsd:element name="searchAddress">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in3" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="searchAddressResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="InvalidParameterException" type="ns1:InvalidParameterException"/>
+<xsd:element name="isAdresseModify">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" type="xsd:long"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="isAdresseModifyResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" type="xsd:boolean"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ElementNotFoundException" type="ns1:ElementNotFoundException"/>
+<xsd:element name="getAdresse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in3" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="geolocalization">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in3" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="geolocalizationResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="inverseGeolocalization">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" type="xsd:double"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in2" type="xsd:double"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in3" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in4" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="inverseGeolocalizationResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseModify">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseModifyResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseInfo">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" type="xsd:long"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseInfoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseHistory">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" type="xsd:long"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in2" type="xsd:int"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAdresseHistoryResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.adresses.paris.fr">
+<xsd:complexType name="InvalidParameterException"/>
+<xsd:complexType name="ElementNotFoundException"/>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAdresseInfoRequest">
+    <wsdl:part name="parameters" element="tns:getAdresseInfo"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseRequest">
+    <wsdl:part name="parameters" element="tns:getAdresse"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseModifyResponse">
+    <wsdl:part name="parameters" element="tns:getAdresseModifyResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseHistoryRequest">
+    <wsdl:part name="parameters" element="tns:getAdresseHistory"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseInfoResponse">
+    <wsdl:part name="parameters" element="tns:getAdresseInfoResponse"/>
+  </wsdl:message>
+  <wsdl:message name="searchAddressRequest">
+    <wsdl:part name="parameters" element="tns:searchAddress"/>
+  </wsdl:message>
+  <wsdl:message name="isAdresseModifyResponse">
+    <wsdl:part name="parameters" element="tns:isAdresseModifyResponse"/>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException"/>
+  </wsdl:message>
+  <wsdl:message name="isAdresseModifyRequest">
+    <wsdl:part name="parameters" element="tns:isAdresseModify"/>
+  </wsdl:message>
+  <wsdl:message name="geolocalizationResponse">
+    <wsdl:part name="parameters" element="tns:geolocalizationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="searchAddressResponse">
+    <wsdl:part name="parameters" element="tns:searchAddressResponse"/>
+  </wsdl:message>
+  <wsdl:message name="inverseGeolocalizationRequest">
+    <wsdl:part name="parameters" element="tns:inverseGeolocalization"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseResponse">
+    <wsdl:part name="parameters" element="tns:getAdresseResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ElementNotFoundException">
+    <wsdl:part name="ElementNotFoundException" element="tns:ElementNotFoundException"/>
+  </wsdl:message>
+  <wsdl:message name="inverseGeolocalizationResponse">
+    <wsdl:part name="parameters" element="tns:inverseGeolocalizationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="geolocalizationRequest">
+    <wsdl:part name="parameters" element="tns:geolocalization"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseHistoryResponse">
+    <wsdl:part name="parameters" element="tns:getAdresseHistoryResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getAdresseModifyRequest">
+    <wsdl:part name="parameters" element="tns:getAdresseModify"/>
+  </wsdl:message>
+  <wsdl:portType name="AdresseServicePortType">
+    <wsdl:operation name="searchAddress">
+      <wsdl:input name="searchAddressRequest" message="tns:searchAddressRequest"/>
+      <wsdl:output name="searchAddressResponse" message="tns:searchAddressResponse"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="isAdresseModify">
+      <wsdl:input name="isAdresseModifyRequest" message="tns:isAdresseModifyRequest"/>
+      <wsdl:output name="isAdresseModifyResponse" message="tns:isAdresseModifyResponse"/>
+      <wsdl:fault name="ElementNotFoundException" message="tns:ElementNotFoundException"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresse">
+      <wsdl:input name="getAdresseRequest" message="tns:getAdresseRequest"/>
+      <wsdl:output name="getAdresseResponse" message="tns:getAdresseResponse"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="geolocalization">
+      <wsdl:input name="geolocalizationRequest" message="tns:geolocalizationRequest"/>
+      <wsdl:output name="geolocalizationResponse" message="tns:geolocalizationResponse"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="inverseGeolocalization">
+      <wsdl:input name="inverseGeolocalizationRequest" message="tns:inverseGeolocalizationRequest"/>
+      <wsdl:output name="inverseGeolocalizationResponse" message="tns:inverseGeolocalizationResponse"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresseModify">
+      <wsdl:input name="getAdresseModifyRequest" message="tns:getAdresseModifyRequest"/>
+      <wsdl:output name="getAdresseModifyResponse" message="tns:getAdresseModifyResponse"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresseInfo">
+      <wsdl:input name="getAdresseInfoRequest" message="tns:getAdresseInfoRequest"/>
+      <wsdl:output name="getAdresseInfoResponse" message="tns:getAdresseInfoResponse"/>
+      <wsdl:fault name="ElementNotFoundException" message="tns:ElementNotFoundException"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresseHistory">
+      <wsdl:input name="getAdresseHistoryRequest" message="tns:getAdresseHistoryRequest"/>
+      <wsdl:output name="getAdresseHistoryResponse" message="tns:getAdresseHistoryResponse"/>
+      <wsdl:fault name="ElementNotFoundException" message="tns:ElementNotFoundException"/>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AdresseServiceHttpBinding" type="tns:AdresseServicePortType">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="searchAddress">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="searchAddressRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchAddressResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isAdresseModify">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="isAdresseModifyRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isAdresseModifyResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ElementNotFoundException">
+        <wsdlsoap:fault name="ElementNotFoundException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresse">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAdresseRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAdresseResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="geolocalization">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="geolocalizationRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="geolocalizationResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="inverseGeolocalization">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="inverseGeolocalizationRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="inverseGeolocalizationResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresseModify">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAdresseModifyRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAdresseModifyResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresseInfo">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAdresseInfoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAdresseInfoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ElementNotFoundException">
+        <wsdlsoap:fault name="ElementNotFoundException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAdresseHistory">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAdresseHistoryRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAdresseHistoryResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ElementNotFoundException">
+        <wsdlsoap:fault name="ElementNotFoundException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidParameterException">
+        <wsdlsoap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AdresseService">
+    <wsdl:port name="AdresseServiceHttpPort" binding="tns:AdresseServiceHttpBinding">
+      <wsdlsoap:address location="http://10.100.33.45:8080/AdressesServices-1.0/services/AdresseService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

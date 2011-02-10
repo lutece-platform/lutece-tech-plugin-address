@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<adresse> 
+	<identifiant>11</identifiant> 
+	<geometry>POINT (599402.1293844717 128092.1348385741)</geometry> 
+	<numero>17</numero> 
+	<dateMaj>20070131</dateMaj> 
+	<suffixe1>b</suffixe1> 
+	<dateCreation>10000101</dateCreation> 
+	<majUser>apur</majUser> 
+	<etatAdresse>valide</etatAdresse> 
+	<typeAdresse /> 
+	<statutAdresse>O</statutAdresse> 
+	<idVoie>3442</idVoie> 
+	<idParcelle>11988</idParcelle> 
+	<commune>PARIS--7E--ARRONDISSEMENT</commune> 
+	<code_insee>75107</code_insee> 
+</adresse>
