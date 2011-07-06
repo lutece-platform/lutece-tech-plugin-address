@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.plugins.address.util;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.plugins.address.business.jaxb.Adresse;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -46,7 +46,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
  */
 public final class LibraryAddressUtils
 {
-	public static final String CONSTANT_COMA = ",";
+    public static final String CONSTANT_COMA = ",";
     public static final String CONSTANT_MULTI_SPACE = "\\s+";
     public static final String CONSTANT_ONE_SPACE = " ";
     public static final String CONSTANT_OPEN_PARENTHESIS = "(";
@@ -85,10 +85,11 @@ public final class LibraryAddressUtils
         String strListValues = AppPropertiesService.getProperty( PROPERTY_VALUES );
         String strSeparator = AppPropertiesService.getProperty( PROPERTY_SEPARATOR );
 
-        if ( strListValues == null || strSeparator == null )
+        if ( ( strListValues == null ) || ( strSeparator == null ) )
         {
-        	return bReturn;
+            return bReturn;
         }
+
         String[] arrayValues = strListValues.split( strSeparator );
 
         for ( String strCurrentValue : arrayValues )
@@ -102,135 +103,140 @@ public final class LibraryAddressUtils
 
         return bReturn;
     }
-	
-	/**
-	 * Parse a long
-	 * @param strValue the value to parse
-	 * @return the long value of <code>strValue</code>, <code>-1</code> otherwise.
-	 */
-	public static long parseLong( String strValue )
-	{
-		return parseLong( strValue, -1 );
-	}
-	
-	/**
-	 * Parse a long
-	 * @param strValue the value to parse
-	 * @param nDefaultValue the default value
-	 * @return the long value of <code>strValue</code>, <code>nDefaultValue</code> otherwise.
-	 */
-	public static long parseLong( String strValue, long nDefaultValue )
-	{
-		try
-		{
-			return Long.parseLong( strValue );
-		}
-		catch ( NumberFormatException nfe )
-		{
-			return nDefaultValue;
-		}
-	}
-	
-	/**
-	 * Parse a long
-	 * @param strValue the value to parse
-	 * @return the int value of <code>strValue</code>, <code>-1</code> otherwise.
-	 */
-	public static int parseInt( String strValue )
-	{
-		return parseInt( strValue, -1 );
-	}
-	
-	/**
-	 * Parse a long
-	 * @param strValue the value to parse
-	 * @param nDefaultValue the default value
-	 * @return the int value of <code>strValue</code>, <code>nDefaultValue</code> otherwise.
-	 */
-	public static int parseInt( String strValue, int nDefaultValue )
-	{
-		try
-		{
-			return Integer.parseInt( strValue );
-		}
-		catch ( NumberFormatException nfe )
-		{
-			return nDefaultValue;
-		}
-	}
-	
-	/**
-	 * Fills the address with x and y geolocation using strGeometry.
-	 * <code>POINT (123.456789 987.654321)</code> will give <code>x = 123.456789</code> and <code>y = 987.654321</code>.
-	 * Set x and y to 0 if x or y is not a number.
-	 * @param adresse the address to fill
-	 * @param strGeometry the geometry string
-	 */
-	public static void fillAddressGeolocation( Adresse adresse, String strGeometry )
-	{
-		if ( StringUtils.isNotBlank( strGeometry ) && strGeometry.matches( VALID_GEOMETRY_REGEX ) )
-		{
-			String strCleanedGeometry = strGeometry.substring( strGeometry.lastIndexOf( CONSTANT_OPEN_PARENTHESIS ) + 1, strGeometry.length(  )-1 );
-         
-			try
-			{
-				adresse.setGeoX( Float.parseFloat( strCleanedGeometry.substring( 0, strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ) ) ) );
-				adresse.setGeoY( Float.parseFloat( strCleanedGeometry.substring( strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ), strCleanedGeometry.length(  ) ) ) );
-			}
-			catch ( NumberFormatException nfe )
-			{
-				// set to 0
-				AppLogService.error( "LibraryAddressUtils.fillAddressGeolocation failed for " + strGeometry + " " + nfe.getLocalizedMessage(  ) );
-				adresse.setGeoX( 0 );
-				adresse.setGeoY( 0 );
-			}
-		}
-	}
-	
-	/**
-	 * String representation of the adresse
-	 * @param adresse the adresse
-	 * @return the string
-	 */
-	public static String normalizeAddress( Adresse adresse )
-	{
-		StringBuilder sbAddress = new StringBuilder(  );
-		
-		sbAddress.append( ObjectUtils.toString( adresse.getDunumero(  ) ) );
-		sbAddress.append( CONSTANT_ONE_SPACE );
-		
-		if ( StringUtils.isNotBlank( adresse.getDubis(  ) ) )
-		{
-			sbAddress.append( ObjectUtils.toString( adresse.getDubis(  ) ) );
-			sbAddress.append( CONSTANT_ONE_SPACE );
-		}
-		
-		sbAddress.append( ObjectUtils.toString( adresse.getTypeVoie(  ) ) );
-		if ( !LibraryAddressUtils.isTerminateByApostrophe( adresse.getTypeVoie(  ) ) )
-		{
-			sbAddress.append( CONSTANT_ONE_SPACE );
-		}
-		
-		sbAddress.append( ObjectUtils.toString( adresse.getLibelleVoie(  ) ) );
-		sbAddress.append( CONSTANT_COMA );
-		sbAddress.append( CONSTANT_ONE_SPACE );
-		
-		if ( StringUtils.isNotBlank(  adresse.getComplement1Adresse(  ) ) )
-		{
-			sbAddress.append( adresse.getComplement1Adresse(  ) );
-			sbAddress.append( CONSTANT_COMA );
-			sbAddress.append( CONSTANT_ONE_SPACE );
-		}
 
-		if ( StringUtils.isNotBlank(  adresse.getComplement2Adresse(  ) ) )
-		{
-			sbAddress.append( adresse.getComplement2Adresse(  ) );
-			sbAddress.append( CONSTANT_COMA );
-			sbAddress.append( CONSTANT_ONE_SPACE );
-		}
-		
-		sbAddress.append( ObjectUtils.toString( adresse.getVille(  ) ) );
-		
-		return sbAddress.toString(  );
-	}
+    /**
+     * Parse a long
+     * @param strValue the value to parse
+     * @return the long value of <code>strValue</code>, <code>-1</code> otherwise.
+     */
+    public static long parseLong( String strValue )
+    {
+        return parseLong( strValue, -1 );
+    }
+
+    /**
+     * Parse a long
+     * @param strValue the value to parse
+     * @param nDefaultValue the default value
+     * @return the long value of <code>strValue</code>, <code>nDefaultValue</code> otherwise.
+     */
+    public static long parseLong( String strValue, long nDefaultValue )
+    {
+        try
+        {
+            return Long.parseLong( strValue );
+        }
+        catch ( NumberFormatException nfe )
+        {
+            return nDefaultValue;
+        }
+    }
+
+    /**
+     * Parse a long
+     * @param strValue the value to parse
+     * @return the int value of <code>strValue</code>, <code>-1</code> otherwise.
+     */
+    public static int parseInt( String strValue )
+    {
+        return parseInt( strValue, -1 );
+    }
+
+    /**
+     * Parse a long
+     * @param strValue the value to parse
+     * @param nDefaultValue the default value
+     * @return the int value of <code>strValue</code>, <code>nDefaultValue</code> otherwise.
+     */
+    public static int parseInt( String strValue, int nDefaultValue )
+    {
+        try
+        {
+            return Integer.parseInt( strValue );
+        }
+        catch ( NumberFormatException nfe )
+        {
+            return nDefaultValue;
+        }
+    }
+
+    /**
+     * Fills the address with x and y geolocation using strGeometry.
+     * <code>POINT (123.456789 987.654321)</code> will give <code>x = 123.456789</code> and <code>y = 987.654321</code>.
+     * Set x and y to 0 if x or y is not a number.
+     * @param adresse the address to fill
+     * @param strGeometry the geometry string
+     */
+    public static void fillAddressGeolocation( Adresse adresse, String strGeometry )
+    {
+        if ( StringUtils.isNotBlank( strGeometry ) && strGeometry.matches( VALID_GEOMETRY_REGEX ) )
+        {
+            String strCleanedGeometry = strGeometry.substring( strGeometry.lastIndexOf( CONSTANT_OPEN_PARENTHESIS ) +
+                    1, strGeometry.length(  ) - 1 );
+
+            try
+            {
+                adresse.setGeoX( Float.parseFloat( strCleanedGeometry.substring( 0,
+                            strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ) ) ) );
+                adresse.setGeoY( Float.parseFloat( strCleanedGeometry.substring( strCleanedGeometry.lastIndexOf( 
+                                CONSTANT_ONE_SPACE ), strCleanedGeometry.length(  ) ) ) );
+            }
+            catch ( NumberFormatException nfe )
+            {
+                // set to 0
+                AppLogService.error( "LibraryAddressUtils.fillAddressGeolocation failed for " + strGeometry + " " +
+                    nfe.getLocalizedMessage(  ) );
+                adresse.setGeoX( 0 );
+                adresse.setGeoY( 0 );
+            }
+        }
+    }
+
+    /**
+     * String representation of the adresse
+     * @param adresse the adresse
+     * @return the string
+     */
+    public static String normalizeAddress( Adresse adresse )
+    {
+        StringBuilder sbAddress = new StringBuilder(  );
+
+        sbAddress.append( ObjectUtils.toString( adresse.getDunumero(  ) ) );
+        sbAddress.append( CONSTANT_ONE_SPACE );
+
+        if ( StringUtils.isNotBlank( adresse.getDubis(  ) ) )
+        {
+            sbAddress.append( ObjectUtils.toString( adresse.getDubis(  ) ) );
+            sbAddress.append( CONSTANT_ONE_SPACE );
+        }
+
+        sbAddress.append( ObjectUtils.toString( adresse.getTypeVoie(  ) ) );
+
+        if ( !LibraryAddressUtils.isTerminateByApostrophe( adresse.getTypeVoie(  ) ) )
+        {
+            sbAddress.append( CONSTANT_ONE_SPACE );
+        }
+
+        sbAddress.append( ObjectUtils.toString( adresse.getLibelleVoie(  ) ) );
+        sbAddress.append( CONSTANT_COMA );
+        sbAddress.append( CONSTANT_ONE_SPACE );
+
+        if ( StringUtils.isNotBlank( adresse.getComplement1Adresse(  ) ) )
+        {
+            sbAddress.append( adresse.getComplement1Adresse(  ) );
+            sbAddress.append( CONSTANT_COMA );
+            sbAddress.append( CONSTANT_ONE_SPACE );
+        }
+
+        if ( StringUtils.isNotBlank( adresse.getComplement2Adresse(  ) ) )
+        {
+            sbAddress.append( adresse.getComplement2Adresse(  ) );
+            sbAddress.append( CONSTANT_COMA );
+            sbAddress.append( CONSTANT_ONE_SPACE );
+        }
+
+        sbAddress.append( ObjectUtils.toString( adresse.getVille(  ) ) );
+
+        return sbAddress.toString(  );
+    }
 }

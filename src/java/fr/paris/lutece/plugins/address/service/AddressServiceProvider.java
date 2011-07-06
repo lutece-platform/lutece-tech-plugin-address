@@ -98,7 +98,7 @@ public final class AddressServiceProvider
     {
         return _service.getAdresseInfo( request, id, bIsTest );
     }
-    
+
     /**
      * @throws RemoteException the RemoteExecption
      * @param request Request
@@ -106,12 +106,12 @@ public final class AddressServiceProvider
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getGeolocalisation( HttpServletRequest request, String strAddress, String strDate, boolean bIsTest )
-         throws RemoteException
+    public static Adresse getGeolocalisation( HttpServletRequest request, String strAddress, String strDate,
+        boolean bIsTest ) throws RemoteException
     {
-    	 return _service.getGeolocalisation( request, strAddress, strDate, bIsTest );
+        return _service.getGeolocalisation( request, strAddress, strDate, bIsTest );
     }
-    
+
     /**
      * @throws RemoteException the RemoteExecption
      * @param request Request
@@ -120,9 +120,9 @@ public final class AddressServiceProvider
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest )
-         throws RemoteException
-     {
-    	 return _service.getGeolocalisation( request, id, strAddress, strDate, bIsTest );
-     }
+    public static Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate,
+        boolean bIsTest ) throws RemoteException
+    {
+        return _service.getGeolocalisation( request, id, strAddress, strDate, bIsTest );
+    }
 }

@@ -75,31 +75,32 @@ public class WebServiceAddressService implements IAddressService
     private static final String JAXB_CONTEXT_WS_FICHE_ADDRESS = "fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse";
     private static final String JAXB_CONTEXT_WS_SEARCH_ADDRESS = "fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse";
     private static final String SESSION_LIST_ADDRESS_NAME = "LIBRARY" + "_WSLISTADDRESS";
+
     /**
      * address.geolocation.rsid
      */
     private static final String PROPERTY_GEOLOCATION_RSID = "address.geolocation.rsid";
+
     /**
      * Default RSID for geolocalization.
      */
     private static final int CONSTANTE_DEFAULT_GEOLOCATION_RSID = 27561;
-    
     private String _strUrlWS;
     private String _strDefaultCity;
     private String _strDateSearch;
     private String _strUserName;
     private String _strPassword;
     private String _strTimeOut;
-    
+
     /**
      * RSID using {@link #PROPERTY_GEOLOCATION_RSID} if found, {@link #CONSTANTE_DEFAULT_GEOLOCATION_RSID} otherwise.
      * @return RSID value
      */
     private int getGeolocationRSID(  )
     {
-    	return AppPropertiesService.getPropertyInt( PROPERTY_GEOLOCATION_RSID, CONSTANTE_DEFAULT_GEOLOCATION_RSID );
+        return AppPropertiesService.getPropertyInt( PROPERTY_GEOLOCATION_RSID, CONSTANTE_DEFAULT_GEOLOCATION_RSID );
     }
-    
+
     /**
      * Finds the geolocalsation.
      * Uses {@link #getGeolocationRSID()} as RSID.
@@ -109,11 +110,11 @@ public class WebServiceAddressService implements IAddressService
      * @return the XML flux of an adress
      *
      */
-     public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest )
-     	throws RemoteException
-     {
-    	 return getGeolocalisation(request, getGeolocationRSID(  ), addresse, date, bIsTest);
-     }
+    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest )
+        throws RemoteException
+    {
+        return getGeolocalisation( request, getGeolocationRSID(  ), addresse, date, bIsTest );
+    }
 
     /**
      * @throws RemoteException the RemoteExecption
@@ -123,57 +124,58 @@ public class WebServiceAddressService implements IAddressService
      * @return the XML flux of an adress
      *
      */
-     public Adresse getGeolocalisation( HttpServletRequest request, long id, String addresse, String date, boolean bIsTest )
-         throws RemoteException
-     {
-    	 String responseWebService = null;
-         AdresseService adresseService = new AdresseServiceLocator(  );
+    public Adresse getGeolocalisation( HttpServletRequest request, long id, String addresse, String date,
+        boolean bIsTest ) throws RemoteException
+    {
+        String responseWebService = null;
+        AdresseService adresseService = new AdresseServiceLocator(  );
 
-         try
-         {
-             URL urlWS = null;
+        try
+        {
+            URL urlWS = null;
 
-             Stub portType = null;
+            Stub portType = null;
 
-             if ( ( getUrlWS(  ) == null ) || getUrlWS(  ).equals( "" ) )
-             {
-                 portType = (Stub) adresseService.getAdresseServiceHttpPort(  );
-             }
-             else
-             {
-                 try
-                 {
-                     urlWS = new URL( getUrlWS(  ) );
-                 }
-                 catch ( MalformedURLException e )
-                 {
-                     AppLogService.error( e.getMessage(  ), e );
-                 }
+            if ( ( getUrlWS(  ) == null ) || getUrlWS(  ).equals( "" ) )
+            {
+                portType = (Stub) adresseService.getAdresseServiceHttpPort(  );
+            }
+            else
+            {
+                try
+                {
+                    urlWS = new URL( getUrlWS(  ) );
+                }
+                catch ( MalformedURLException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
 
-                 portType = (Stub) adresseService.getAdresseServiceHttpPort( urlWS );
-             }
+                portType = (Stub) adresseService.getAdresseServiceHttpPort( urlWS );
+            }
 
-             portType.setUsername( getUserName(  ) );
-             portType.setPassword( getPassword(  ) );
+            portType.setUsername( getUserName(  ) );
+            portType.setPassword( getPassword(  ) );
 
-             setTimeout( portType );
+            setTimeout( portType );
 
-             responseWebService = ( (AdresseServicePortType) portType ).geolocalization( getDefaultCity(), addresse, String.valueOf( id ), date );
-         }
-         catch ( ServiceException e )
-         {
-             AppLogService.error( e.getMessage(  ), e );
-         }
+            responseWebService = ( (AdresseServicePortType) portType ).geolocalization( getDefaultCity(  ), addresse,
+                    String.valueOf( id ), date );
+        }
+        catch ( ServiceException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
 
-         Adresse adresseReturn = new Adresse(  );
-         
-         LibraryAddressUtils.fillAddressGeolocation( adresseReturn, responseWebService );
-         
-         cleanListWSAdresses( request, SESSION_LIST_ADDRESS_NAME );
+        Adresse adresseReturn = new Adresse(  );
 
-         return adresseReturn;
-     }
-    
+        LibraryAddressUtils.fillAddressGeolocation( adresseReturn, responseWebService );
+
+        cleanListWSAdresses( request, SESSION_LIST_ADDRESS_NAME );
+
+        return adresseReturn;
+    }
+
     /**
     * @throws RemoteException the RemoteExecption
     * @param request Request
@@ -250,12 +252,11 @@ public class WebServiceAddressService implements IAddressService
         adresseReturn.setDubis( adresse.getSuffixe1(  ) );
         adresseReturn.setCodeCommune( adresse.getCodeInsee(  ).toString(  ) );
         adresseReturn.setVille( adresse.getCommune(  ) );
-		
-		// FIXME : use this when SRID can be passed to getAdressInfo
+
+        // FIXME : use this when SRID can be passed to getAdressInfo
         // String strGeometry = adresse.getGeometry(  );
         // 
-		// LibraryAddressUtils.fillAddressGeolocation( adresseReturn, strGeometry );
-		
+        // LibraryAddressUtils.fillAddressGeolocation( adresseReturn, strGeometry );
         if ( !bIsTest )
         {
             List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAddress = getListWSAdresses( request )
@@ -267,10 +268,10 @@ public class WebServiceAddressService implements IAddressService
                 {
                     adresseReturn.setTypeVoie( currentAdresse.getTypeVoie(  ) );
                     adresseReturn.setLibelleVoie( currentAdresse.getNomVoie(  ) );
-                    
+
                     // FIXME : see on top
                     LibraryAddressUtils.fillAddressGeolocation( adresseReturn, currentAdresse.getGeometry(  ) );
-                    
+
                     break;
                 }
             }
@@ -428,9 +429,9 @@ public class WebServiceAddressService implements IAddressService
     public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement )
         throws RemoteException
     {
-    	return searchAddress( request, labeladresse, Integer.toString( getGeolocationRSID(  ) ), strArrondissement );
+        return searchAddress( request, labeladresse, Integer.toString( getGeolocationRSID(  ) ), strArrondissement );
     }
-    
+
     /**
      * @throws RemoteException the RemoteExecption
      * @param strSRID the srsid
@@ -440,9 +441,10 @@ public class WebServiceAddressService implements IAddressService
      * @return the XML flux of all adress corresponding
      * @see <a href="http://dev.lutece.paris.fr/jira/browse/ADDRESS-8">ADDRESS-8</a>
      */
-    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID, String strArrondissement ) throws RemoteException
-	{
-    	String responseWebService = null;
+    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID,
+        String strArrondissement ) throws RemoteException
+    {
+        String responseWebService = null;
         AdresseService adresseService = new AdresseServiceLocator(  );
 
         try
@@ -475,7 +477,7 @@ public class WebServiceAddressService implements IAddressService
             setTimeout( portType );
 
             responseWebService = ( (AdresseServicePortType) portType ).searchAddress( getDefaultCity(  ), labeladresse,
-            		strSRID, getDateSearch(  ) );
+                    strSRID, getDateSearch(  ) );
 
             // check null result and then return null list
             if ( responseWebService == null )
@@ -578,7 +580,7 @@ public class WebServiceAddressService implements IAddressService
         }
 
         return refList;
-	}
+    }
 
     /**
     *
@@ -687,20 +689,21 @@ public class WebServiceAddressService implements IAddressService
     {
         _strTimeOut = timeOut;
     }
-    
+
     /**
      * Sets the timeout to the stub
      * @param portType
      */
     private void setTimeout( Stub portType )
     {
-    	try
+        try
         {
             portType.setTimeout( Integer.parseInt( getTimeOut(  ) ) );
         }
         catch ( NumberFormatException e )
         {
-            AppLogService.error( "WebServiceAddressService : timeOut is not set correctly for WebServiceAddressService. Please check address_context.xml. Will use no timeout" );
+            AppLogService.error( 
+                "WebServiceAddressService : timeOut is not set correctly for WebServiceAddressService. Please check address_context.xml. Will use no timeout" );
         }
     }
 

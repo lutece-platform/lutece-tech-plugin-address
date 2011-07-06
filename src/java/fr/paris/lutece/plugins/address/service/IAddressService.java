@@ -66,7 +66,7 @@ public interface IAddressService
      */
     ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement )
         throws RemoteException;
-    
+
     /**
      * @throws RemoteException the RemoteExecption
      * @param strSRID the srsid
@@ -76,8 +76,8 @@ public interface IAddressService
      * @return the XML flux of all adress corresponding
      *
      */
-    ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID, String strArrondissement )
-        throws RemoteException;
+    ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID,
+        String strArrondissement ) throws RemoteException;
 
     /**
     * @throws RemoteException the RemoteExecption
@@ -89,7 +89,7 @@ public interface IAddressService
     */
     Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest )
         throws RemoteException;
-    
+
     /**
      * Finds the geolocalsation. Uses a default RSID.
      * @throws RemoteException the RemoteExecption
@@ -99,9 +99,9 @@ public interface IAddressService
      * @see WebServiceAddressService#getGeolocalisation(HttpServletRequest, String, String, boolean)
      *
      */
-     public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest )
-     	throws RemoteException;
-    
+    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest )
+        throws RemoteException;
+
     /**
      * @throws RemoteException the RemoteExecption
      * @param request Request
@@ -110,6 +110,6 @@ public interface IAddressService
      * @return the XML flux of an adress
      *
      */
-     Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest )
-         throws RemoteException;
+    Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest )
+        throws RemoteException;
 }

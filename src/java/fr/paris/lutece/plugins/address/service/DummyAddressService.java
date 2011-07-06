@@ -33,25 +33,29 @@
  */
 package fr.paris.lutece.plugins.address.service;
 
-import java.io.FileInputStream;
-import java.io.StringReader;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.rmi.RemoteException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
 import fr.paris.lutece.plugins.address.business.jaxb.Adresse;
 import fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresses;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.io.FileInputStream;
+import java.io.StringReader;
+
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+import java.rmi.RemoteException;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
 
 
 /**
@@ -161,7 +165,7 @@ public class DummyAddressService implements IAddressService
      */
     public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement )
     {
-    	String strFluxAddress = null;
+        String strFluxAddress = null;
 
         String strFilePath = AppPathService.getPath( PROPERTY_XML_PATH_DIRECTORY );
         String strFileName = AppPropertiesService.getProperty( PROPERTY_XML_FILE_SEARCH_ADDRESS );
@@ -238,77 +242,80 @@ public class DummyAddressService implements IAddressService
      * @return the XML flux of an adress
      *
      */
-     public Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest )
-     {
-    	 String strFluxAddress = null;
+    public Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate,
+        boolean bIsTest )
+    {
+        String strFluxAddress = null;
 
-         String strFilePath = AppPathService.getPath( PROPERTY_XML_PATH_DIRECTORY );
-         String strFileName = AppPropertiesService.getProperty( PROPERTY_XML_FILE_ADDRESS_INFO );
+        String strFilePath = AppPathService.getPath( PROPERTY_XML_PATH_DIRECTORY );
+        String strFileName = AppPropertiesService.getProperty( PROPERTY_XML_FILE_ADDRESS_INFO );
 
-         byte[] out = new byte[128];
+        byte[] out = new byte[128];
 
-         try
-         {
-             out = read( strFilePath + strFileName );
-         }
-         catch ( Exception e )
-         {
-             AppLogService.error( e.getMessage(  ), e );
-         }
+        try
+        {
+            out = read( strFilePath + strFileName );
+        }
+        catch ( Exception e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
 
-         strFluxAddress = new String( out );
+        strFluxAddress = new String( out );
 
-         //traitement du flux xml
-         fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse adresse = null;
+        //traitement du flux xml
+        fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse adresse = null;
 
-         JAXBContext jc;
+        JAXBContext jc;
 
-         try
-         {
-             jc = JAXBContext.newInstance( JAXB_CONTEXT_WS_FICHE_ADDRESS );
+        try
+        {
+            jc = JAXBContext.newInstance( JAXB_CONTEXT_WS_FICHE_ADDRESS );
 
-             Unmarshaller u = jc.createUnmarshaller(  );
-             StringBuffer xmlStr = new StringBuffer( strFluxAddress );
-             adresse = (fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse) u.unmarshal( new StreamSource( 
-                         new StringReader( xmlStr.toString(  ) ) ) );
-         }
-         catch ( JAXBException e )
-         {
-             AppLogService.error( e.getMessage(  ), e );
-         }
+            Unmarshaller u = jc.createUnmarshaller(  );
+            StringBuffer xmlStr = new StringBuffer( strFluxAddress );
+            adresse = (fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse) u.unmarshal( new StreamSource( 
+                        new StringReader( xmlStr.toString(  ) ) ) );
+        }
+        catch ( JAXBException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
 
-         Adresse adresseReturn = new Adresse(  );
+        Adresse adresseReturn = new Adresse(  );
 
-         adresseReturn.setIadresse( adresse.getIdentifiant(  ) );
-         adresseReturn.setDunumero( adresse.getNumero(  ) );
-         adresseReturn.setDubis( adresse.getSuffixe1(  ) );
-         adresseReturn.setCodeCommune( adresse.getCodeInsee(  ).toString(  ) );
+        adresseReturn.setIadresse( adresse.getIdentifiant(  ) );
+        adresseReturn.setDunumero( adresse.getNumero(  ) );
+        adresseReturn.setDubis( adresse.getSuffixe1(  ) );
+        adresseReturn.setCodeCommune( adresse.getCodeInsee(  ).toString(  ) );
 
-         String responseWebService = adresse.getGeometry(  );
-         responseWebService = responseWebService.substring( responseWebService.lastIndexOf("(")+1, responseWebService.length()-1 );
-         
-         adresseReturn.setGeoX(  Float.parseFloat( responseWebService.substring( 0, responseWebService.lastIndexOf(" ") ) ) );
-         adresseReturn.setGeoY(  Float.parseFloat( responseWebService.substring( responseWebService.lastIndexOf(" "), responseWebService.length(  ) ) ) );
-         
-         if ( !bIsTest )
-         {
-             List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAddress = _listAdresses.getAdresse(  );
+        String responseWebService = adresse.getGeometry(  );
+        responseWebService = responseWebService.substring( responseWebService.lastIndexOf( "(" ) + 1,
+                responseWebService.length(  ) - 1 );
 
-             for ( fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse currentAdresse : listAddress )
-             {
-                 if ( String.valueOf( currentAdresse.getIdentifiant(  ) ).equals( String.valueOf( id ) ) )
-                 {
-                     adresseReturn.setTypeVoie( currentAdresse.getTypeVoie(  ) );
-                     adresseReturn.setLibelleVoie( currentAdresse.getNomVoie(  ) );
+        adresseReturn.setGeoX( Float.parseFloat( responseWebService.substring( 0, responseWebService.lastIndexOf( " " ) ) ) );
+        adresseReturn.setGeoY( Float.parseFloat( responseWebService.substring( responseWebService.lastIndexOf( " " ),
+                    responseWebService.length(  ) ) ) );
 
-                     break;
-                 }
-             }
-         }
+        if ( !bIsTest )
+        {
+            List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAddress = _listAdresses.getAdresse(  );
 
-         return adresseReturn;
-     }
-    
+            for ( fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse currentAdresse : listAddress )
+            {
+                if ( String.valueOf( currentAdresse.getIdentifiant(  ) ).equals( String.valueOf( id ) ) )
+                {
+                    adresseReturn.setTypeVoie( currentAdresse.getTypeVoie(  ) );
+                    adresseReturn.setLibelleVoie( currentAdresse.getNomVoie(  ) );
+
+                    break;
+                }
+            }
+        }
+
+        return adresseReturn;
+    }
+
     /**
     * @param request Request
     * @param id the adress id
@@ -507,18 +514,19 @@ public class DummyAddressService implements IAddressService
         _strTimeOut = timeOut;
     }
 
-	public Adresse getGeolocalisation(HttpServletRequest request,
-			String addresse, String date, boolean bIsTest)
-			throws RemoteException {
-		return getGeolocalisation(request, 0, addresse, date, bIsTest);
-	}
+    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest )
+        throws RemoteException
+    {
+        return getGeolocalisation( request, 0, addresse, date, bIsTest );
+    }
 
-	/**
-	 * 
-	 *{@inheritDoc}
-	 */
-	public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID, String strArrondissement ) throws RemoteException
-	{
-		return searchAddress( request, labeladresse, strArrondissement );
-	}
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID,
+        String strArrondissement ) throws RemoteException
+    {
+        return searchAddress( request, labeladresse, strArrondissement );
+    }
 }
