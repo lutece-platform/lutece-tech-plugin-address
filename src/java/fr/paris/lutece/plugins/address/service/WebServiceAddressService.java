@@ -65,6 +65,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.rpc.ServiceException;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -556,12 +557,19 @@ public class WebServiceAddressService implements IAddressService
 
                 String arr = currentAdresse.getCommune(  );
                 int index = arr.indexOf( "E" );
-                arr = arr.substring( index - 2, index );
-                index = arr.indexOf( "-" );
-
-                if ( index != -1 )
+                if ( index > 2 )
                 {
-                    arr = arr.substring( 1, 2 );
+                    arr = arr.substring( index - 2, index );
+                    index = arr.indexOf( "-" );
+
+                    if ( index != -1 )
+                    {
+                        arr = arr.substring( 1, 2 );
+                    }
+                }
+                else
+                {
+                    arr = StringUtils.EMPTY;
                 }
 
                 //Added for filter the double adresse
