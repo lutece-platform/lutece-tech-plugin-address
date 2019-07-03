@@ -11,5 +11,7 @@
   	 <property name="password" value=""/>
   	 <property name="timeOut" value=""/>	<!-- 1000 = 1 second -->
   </bean>
+  
+  <bean id="addressRest" class="fr.paris.lutece.plugins.address.rs.AddressRest" />
 
 </beans>

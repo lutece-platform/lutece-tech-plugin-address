@@ -47,8 +47,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class AddressServiceProvider
 {
-    private static IAddressService _service = (IAddressService) SpringContextService.getPluginBean( "address",
-            "adresseService" );
+    private static IAddressService _service = (IAddressService) SpringContextService.getBean( "adresseService" );
 
     /**
      *
@@ -124,5 +123,14 @@ public final class AddressServiceProvider
         boolean bIsTest ) throws RemoteException
     {
         return _service.getGeolocalisation( request, id, strAddress, strDate, bIsTest );
+    }
+    
+    /**
+     * returns the class of instanciated address service provider
+     * @return the simple name of the class
+     */
+    public static String getInstanceClass( )
+    {
+        return _service.getClass( ).getSimpleName( );
     }
 }
