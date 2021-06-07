@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,11 +51,9 @@ import java.net.URLEncoder;
 import java.rmi.RemoteException;
 import javassist.bytecode.stackmap.BasicBlock;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-
 
 /**
  *
@@ -66,7 +64,7 @@ public class RestAddressService implements IAddressService
     // Plugin properties
     private static final String PROPERTY_URL_ADR_COMPLETION = "address.teleservice.url.adr.completion";
     private static final String PROPERTY_URL_ADR_LOCATION = "address.teleservice.url.adr.location";
-    
+
     // constants (for synchro)
     private static final String CONSTANT_KEY_FEATURES = "Features";
     private static final String CONSTANT_KEY_ADDRESS_ID = "Idadrposte";
@@ -75,17 +73,17 @@ public class RestAddressService implements IAddressService
     private static final String CONSTANT_KEY_NUM_DISTRICT = "Nqu";
     private static final String CONSTANT_KEY_GEOLOCATION_X = "X";
     private static final String CONSTANT_KEY_GEOLOCATION_Y = "Y";
-    
 
     // constants
     private static final String SECURITY_LOGGER_NAME = "lutece.security.http";
-    
+
     /**
-    * @param request Request
+     * @param request
+     *            Request
      * @param searchTerm
-    * @return the XML flux of all adress corresponding
-    *
-    */
+     * @return the XML flux of all adress corresponding
+     *
+     */
     @Override
     public ReferenceList searchAddress( HttpServletRequest request, String searchTerm )
     {
@@ -128,13 +126,12 @@ public class RestAddressService implements IAddressService
             return jsonToAddressList( jsonNode );
 
         }
-        catch( HttpAccessException | UnsupportedEncodingException  e )
+        catch( HttpAccessException | UnsupportedEncodingException e )
         {
             AppLogService.info( e );
             return null;
         }
     }
-    
 
     /**
      * Build address referenceList from json
@@ -167,58 +164,64 @@ public class RestAddressService implements IAddressService
     }
 
     /**
-     * @param request Request
+     * @param request
+     *            Request
      * @param term
-     * @param strArrondissement Arrondissement
+     * @param strArrondissement
+     *            Arrondissement
      * @return the XML flux of all adress corresponding
      *
      */
     @Override
     public ReferenceList searchAddress( HttpServletRequest request, String term, String strArrondissement )
     {
-      
-        return searchAddress(request, term);
+
+        return searchAddress( request, term );
     }
 
     /**
-     * @param request Request
-     * @param idAdr the adress id
+     * @param request
+     *            Request
+     * @param idAdr
+     *            the adress id
      * @return the XML flux of an adress
      *
      */
     public Adresse getGeolocalisation( HttpServletRequest request, String idAdr )
     {
-                
-            if ( StringUtil.containsXssCharacters( idAdr ) )
-            {
-                Logger logger = Logger.getLogger( SECURITY_LOGGER_NAME );
-                logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED : " + idAdr );
-                return null;
-            }
-            
-            try 
-            {
-                long id = Long.parseLong( idAdr );
-                return getGeolocalisation(request,  id, null, null, false);
-            }
-            catch (NumberFormatException e)
-            {
-                return null;
-            }
+
+        if ( StringUtil.containsXssCharacters( idAdr ) )
+        {
+            Logger logger = Logger.getLogger( SECURITY_LOGGER_NAME );
+            logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED : " + idAdr );
+            return null;
+        }
+
+        try
+        {
+            long id = Long.parseLong( idAdr );
+            return getGeolocalisation( request, id, null, null, false );
+        }
+        catch( NumberFormatException e )
+        {
+            return null;
+        }
     }
-    
+
     /**
-     * @param request Request
-     * @param idAdr the adress id
+     * @param request
+     *            Request
+     * @param idAdr
+     *            the adress id
      * @param strAddress
      * @param strDate
-     * @param bIsTest if true test connect at web service, if false search an adress
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
      * @return the XML flux of an adress
      *
      */
     @Override
-    public Adresse getGeolocalisation( HttpServletRequest request, long idAdr, String strAddress, String strDate,
-        boolean bIsTest )
+    public Adresse getGeolocalisation( HttpServletRequest request, long idAdr, String strAddress, String strDate, boolean bIsTest )
     {
         try
         {
@@ -256,8 +259,7 @@ public class RestAddressService implements IAddressService
         }
     }
 
-    
-        /**
+    /**
      * get sector numre from json
      * 
      * @param jsonNode
@@ -278,14 +280,14 @@ public class RestAddressService implements IAddressService
                     JsonNode jsonGeolocX = properties.get( CONSTANT_KEY_GEOLOCATION_X );
                     JsonNode jsonGeolocY = properties.get( CONSTANT_KEY_GEOLOCATION_Y );
 
-                    if ( jsonGeolocX != null  )
+                    if ( jsonGeolocX != null )
                     {
-                        Adresse adresseReturn = new Adresse(  );
+                        Adresse adresseReturn = new Adresse( );
 
                         adresseReturn.setGeoX( jsonGeolocX.asLong( ) );
-                        adresseReturn.setGeoY( jsonGeolocY.asLong( ) ) ;
+                        adresseReturn.setGeoY( jsonGeolocY.asLong( ) );
                     }
-                        
+
                 }
             }
         }
@@ -293,35 +295,35 @@ public class RestAddressService implements IAddressService
         // default
         return null;
     }
-    
-    
+
     /**
-    * @param request Request
-    * @param id the adress id
-    * @param bIsTest if true test connect at web service, if false search an adress
-    * @return the XML flux of an adress
-    *
-    */
+     * @param request
+     *            Request
+     * @param id
+     *            the adress id
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
+     * @return the XML flux of an adress
+     *
+     */
     public Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest )
     {
-        
 
-        Adresse adresseReturn = new Adresse(  );
-
-        
+        Adresse adresseReturn = new Adresse( );
 
         return adresseReturn;
     }
 
     @Override
-    public ReferenceList searchAddress(HttpServletRequest request, String labeladresse, String strSRID, String strArrondissement) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID, String strArrondissement ) throws RemoteException
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Adresse getGeolocalisation(HttpServletRequest request, String addresse, String date, boolean bIsTest) throws RemoteException {
-        return getGeolocalisation(request, addresse, date, bIsTest);
+    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest ) throws RemoteException
+    {
+        return getGeolocalisation( request, addresse, date, bIsTest );
     }
-
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.address.rs;
 
-
 import fr.paris.lutece.plugins.address.service.AddressServiceProvider;
 import fr.paris.lutece.plugins.rest.service.RestConstants;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -54,7 +53,7 @@ import javax.ws.rs.core.Response;
 /**
  * RentRest
  */
-@Path( RestConstants.BASE_PATH + Constants.API_PATH + Constants.VERSION_PATH  )
+@Path( RestConstants.BASE_PATH + Constants.API_PATH + Constants.VERSION_PATH )
 public class AddressRest
 {
     private static final int VERSION_1 = 1;
@@ -62,8 +61,6 @@ public class AddressRest
 
     // Msg
     private static final String MSG_ERROR_GET_ADDRESSES = "address.message.getAdress.error";
-
-
 
     /**
      * Get adress list
@@ -100,21 +97,19 @@ public class AddressRest
     private Response getAddressList( String term )
     {
 
-        
         ReferenceList list = null;
         try
         {
             if ( "RestAddressService".equals( AddressServiceProvider.getInstanceClass( ) ) )
             {
-                list = AddressServiceProvider.searchAddress( null, term) ;
+                list = AddressServiceProvider.searchAddress( null, term );
             }
-            
+
         }
-        catch (RemoteException e )
+        catch( RemoteException e )
         {
             AppLogService.error( e );
         }
-        
 
         if ( list == null )
         {
@@ -125,6 +120,5 @@ public class AddressRest
 
         return Response.status( Response.Status.OK ).entity( JsonUtil.buildJsonResponse( new JsonResponse( list ) ) ).build( );
     }
-
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.rmi.RemoteException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  */
@@ -53,80 +52,94 @@ public final class AddressServiceProvider
      *
      *
      */
-    private AddressServiceProvider(  )
+    private AddressServiceProvider( )
     {
     }
 
     /**
-    * @throws RemoteException the RemoteExecption
-    * @param request Request
-    * @param labeladresse the  label adress
-    * @return the XML flux of all adress corresponding
-    *
-    */
-    public static ReferenceList searchAddress( HttpServletRequest request, String labeladresse )
-        throws RemoteException
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param labeladresse
+     *            the label adress
+     * @return the XML flux of all adress corresponding
+     *
+     */
+    public static ReferenceList searchAddress( HttpServletRequest request, String labeladresse ) throws RemoteException
     {
         return _service.searchAddress( request, labeladresse );
     }
 
     /**
-     * @throws RemoteException the RemoteExecption
-     * @param request Request
-     * @param labeladresse the  label adress
-     * @param strArrondissement Arrondissement
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param labeladresse
+     *            the label adress
+     * @param strArrondissement
+     *            Arrondissement
      * @return the XML flux of all adress corresponding
      *
      */
-    public static ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement )
-        throws RemoteException
+    public static ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement ) throws RemoteException
     {
         return _service.searchAddress( request, labeladresse, strArrondissement );
     }
 
     /**
-    * @throws RemoteException the RemoteExecption
-    * @param request Request
-    * @param id the adress id
-    * @param bIsTest if true test connect at web service, if false search an adress
-    * @return the XML flux of an adress
-    *
-    */
-    public static Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest )
-        throws RemoteException
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param id
+     *            the adress id
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
+     * @return the XML flux of an adress
+     *
+     */
+    public static Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest ) throws RemoteException
     {
         return _service.getAdresseInfo( request, id, bIsTest );
     }
 
     /**
-     * @throws RemoteException the RemoteExecption
-     * @param request Request
-     * @param bIsTest if true test connect at web service, if false search an adress
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getGeolocalisation( HttpServletRequest request, String strAddress, String strDate,
-        boolean bIsTest ) throws RemoteException
+    public static Adresse getGeolocalisation( HttpServletRequest request, String strAddress, String strDate, boolean bIsTest ) throws RemoteException
     {
         return _service.getGeolocalisation( request, strAddress, strDate, bIsTest );
     }
 
     /**
-     * @throws RemoteException the RemoteExecption
-     * @param request Request
-     * @param id the RSID
-     * @param bIsTest if true test connect at web service, if false search an adress
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param id
+     *            the RSID
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate,
-        boolean bIsTest ) throws RemoteException
+    public static Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest ) throws RemoteException
     {
         return _service.getGeolocalisation( request, id, strAddress, strDate, bIsTest );
     }
-    
+
     /**
      * returns the class of instanciated address service provider
+     * 
      * @return the simple name of the class
      */
     public static String getInstanceClass( )

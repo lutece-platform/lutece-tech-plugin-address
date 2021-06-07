@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * Utils methods for library address
  */
@@ -59,13 +58,15 @@ public final class LibraryAddressUtils
      *
      *
      */
-    private LibraryAddressUtils(  )
+    private LibraryAddressUtils( )
     {
     }
 
     /**
      * Replace a sequence of space by one space
-     * @param strChaine the chaine
+     * 
+     * @param strChaine
+     *            the chaine
      * @return the chaine with one space beetween words
      */
     public static String removeMultiSpace( String strChaine )
@@ -74,8 +75,10 @@ public final class LibraryAddressUtils
     }
 
     /**
-     * Test strTypeVoie is termitate by  a value of list strListValuesTerminator
-     * @param strTypeVoie the type voie to test
+     * Test strTypeVoie is termitate by a value of list strListValuesTerminator
+     * 
+     * @param strTypeVoie
+     *            the type voie to test
      * @return true if a value of strTypeVoie is terminate by a value of list strListValuesTerminator
      */
     public static boolean isTerminateByApostrophe( String strTypeVoie )
@@ -90,12 +93,11 @@ public final class LibraryAddressUtils
             return bReturn;
         }
 
-        String[] arrayValues = strListValues.split( strSeparator );
+        String [ ] arrayValues = strListValues.split( strSeparator );
 
         for ( String strCurrentValue : arrayValues )
         {
-            if ( ( strTypeVoie != null ) &&
-                    strTypeVoie.substring( strTypeVoie.length(  ) - 2 ).equalsIgnoreCase( strCurrentValue ) )
+            if ( ( strTypeVoie != null ) && strTypeVoie.substring( strTypeVoie.length( ) - 2 ).equalsIgnoreCase( strCurrentValue ) )
             {
                 bReturn = true;
             }
@@ -106,7 +108,9 @@ public final class LibraryAddressUtils
 
     /**
      * Parse a long
-     * @param strValue the value to parse
+     * 
+     * @param strValue
+     *            the value to parse
      * @return the long value of <code>strValue</code>, <code>-1</code> otherwise.
      */
     public static long parseLong( String strValue )
@@ -116,8 +120,11 @@ public final class LibraryAddressUtils
 
     /**
      * Parse a long
-     * @param strValue the value to parse
-     * @param nDefaultValue the default value
+     * 
+     * @param strValue
+     *            the value to parse
+     * @param nDefaultValue
+     *            the default value
      * @return the long value of <code>strValue</code>, <code>nDefaultValue</code> otherwise.
      */
     public static long parseLong( String strValue, long nDefaultValue )
@@ -126,7 +133,7 @@ public final class LibraryAddressUtils
         {
             return Long.parseLong( strValue );
         }
-        catch ( NumberFormatException nfe )
+        catch( NumberFormatException nfe )
         {
             return nDefaultValue;
         }
@@ -134,7 +141,9 @@ public final class LibraryAddressUtils
 
     /**
      * Parse a long
-     * @param strValue the value to parse
+     * 
+     * @param strValue
+     *            the value to parse
      * @return the int value of <code>strValue</code>, <code>-1</code> otherwise.
      */
     public static int parseInt( String strValue )
@@ -144,8 +153,11 @@ public final class LibraryAddressUtils
 
     /**
      * Parse a long
-     * @param strValue the value to parse
-     * @param nDefaultValue the default value
+     * 
+     * @param strValue
+     *            the value to parse
+     * @param nDefaultValue
+     *            the default value
      * @return the int value of <code>strValue</code>, <code>nDefaultValue</code> otherwise.
      */
     public static int parseInt( String strValue, int nDefaultValue )
@@ -154,38 +166,37 @@ public final class LibraryAddressUtils
         {
             return Integer.parseInt( strValue );
         }
-        catch ( NumberFormatException nfe )
+        catch( NumberFormatException nfe )
         {
             return nDefaultValue;
         }
     }
 
     /**
-     * Fills the address with x and y geolocation using strGeometry.
-     * <code>POINT (123.456789 987.654321)</code> will give <code>x = 123.456789</code> and <code>y = 987.654321</code>.
-     * Set x and y to 0 if x or y is not a number.
-     * @param adresse the address to fill
-     * @param strGeometry the geometry string
+     * Fills the address with x and y geolocation using strGeometry. <code>POINT (123.456789 987.654321)</code> will give <code>x = 123.456789</code> and
+     * <code>y = 987.654321</code>. Set x and y to 0 if x or y is not a number.
+     * 
+     * @param adresse
+     *            the address to fill
+     * @param strGeometry
+     *            the geometry string
      */
     public static void fillAddressGeolocation( Adresse adresse, String strGeometry )
     {
         if ( StringUtils.isNotBlank( strGeometry ) && strGeometry.matches( VALID_GEOMETRY_REGEX ) )
         {
-            String strCleanedGeometry = strGeometry.substring( strGeometry.lastIndexOf( CONSTANT_OPEN_PARENTHESIS ) +
-                    1, strGeometry.length(  ) - 1 );
+            String strCleanedGeometry = strGeometry.substring( strGeometry.lastIndexOf( CONSTANT_OPEN_PARENTHESIS ) + 1, strGeometry.length( ) - 1 );
 
             try
             {
-                adresse.setGeoX( Float.parseFloat( strCleanedGeometry.substring( 0,
-                            strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ) ) ) );
-                adresse.setGeoY( Float.parseFloat( strCleanedGeometry.substring( strCleanedGeometry.lastIndexOf( 
-                                CONSTANT_ONE_SPACE ), strCleanedGeometry.length(  ) ) ) );
+                adresse.setGeoX( Float.parseFloat( strCleanedGeometry.substring( 0, strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ) ) ) );
+                adresse.setGeoY( Float
+                        .parseFloat( strCleanedGeometry.substring( strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ), strCleanedGeometry.length( ) ) ) );
             }
-            catch ( NumberFormatException nfe )
+            catch( NumberFormatException nfe )
             {
                 // set to 0
-                AppLogService.error( "LibraryAddressUtils.fillAddressGeolocation failed for " + strGeometry + " " +
-                    nfe.getLocalizedMessage(  ) );
+                AppLogService.error( "LibraryAddressUtils.fillAddressGeolocation failed for " + strGeometry + " " + nfe.getLocalizedMessage( ) );
                 adresse.setGeoX( 0 );
                 adresse.setGeoY( 0 );
             }
@@ -194,49 +205,51 @@ public final class LibraryAddressUtils
 
     /**
      * String representation of the adresse
-     * @param adresse the adresse
+     * 
+     * @param adresse
+     *            the adresse
      * @return the string
      */
     public static String normalizeAddress( Adresse adresse )
     {
-        StringBuilder sbAddress = new StringBuilder(  );
+        StringBuilder sbAddress = new StringBuilder( );
 
-        sbAddress.append( ObjectUtils.toString( adresse.getDunumero(  ) ) );
+        sbAddress.append( ObjectUtils.toString( adresse.getDunumero( ) ) );
         sbAddress.append( CONSTANT_ONE_SPACE );
 
-        if ( StringUtils.isNotBlank( adresse.getDubis(  ) ) )
+        if ( StringUtils.isNotBlank( adresse.getDubis( ) ) )
         {
-            sbAddress.append( ObjectUtils.toString( adresse.getDubis(  ) ) );
+            sbAddress.append( ObjectUtils.toString( adresse.getDubis( ) ) );
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        sbAddress.append( ObjectUtils.toString( adresse.getTypeVoie(  ) ) );
+        sbAddress.append( ObjectUtils.toString( adresse.getTypeVoie( ) ) );
 
-        if ( !LibraryAddressUtils.isTerminateByApostrophe( adresse.getTypeVoie(  ) ) )
+        if ( !LibraryAddressUtils.isTerminateByApostrophe( adresse.getTypeVoie( ) ) )
         {
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        sbAddress.append( ObjectUtils.toString( adresse.getLibelleVoie(  ) ) );
+        sbAddress.append( ObjectUtils.toString( adresse.getLibelleVoie( ) ) );
         sbAddress.append( CONSTANT_COMA );
         sbAddress.append( CONSTANT_ONE_SPACE );
 
-        if ( StringUtils.isNotBlank( adresse.getComplement1Adresse(  ) ) )
+        if ( StringUtils.isNotBlank( adresse.getComplement1Adresse( ) ) )
         {
-            sbAddress.append( adresse.getComplement1Adresse(  ) );
+            sbAddress.append( adresse.getComplement1Adresse( ) );
             sbAddress.append( CONSTANT_COMA );
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        if ( StringUtils.isNotBlank( adresse.getComplement2Adresse(  ) ) )
+        if ( StringUtils.isNotBlank( adresse.getComplement2Adresse( ) ) )
         {
-            sbAddress.append( adresse.getComplement2Adresse(  ) );
+            sbAddress.append( adresse.getComplement2Adresse( ) );
             sbAddress.append( CONSTANT_COMA );
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        sbAddress.append( ObjectUtils.toString( adresse.getVille(  ) ) );
+        sbAddress.append( ObjectUtils.toString( adresse.getVille( ) ) );
 
-        return sbAddress.toString(  );
+        return sbAddress.toString( );
     }
 }

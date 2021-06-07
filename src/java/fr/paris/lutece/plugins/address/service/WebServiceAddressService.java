@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class WebServiceAddressService implements IAddressService
 {
-    //jaxb context
+    // jaxb context
     private static final String JAXB_CONTEXT_WS_FICHE_ADDRESS = "fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse";
     private static final String JAXB_CONTEXT_WS_SEARCH_ADDRESS = "fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse";
     private static final String SESSION_LIST_ADDRESS_NAME = "LIBRARY" + "_WSLISTADDRESS";
@@ -95,41 +95,47 @@ public class WebServiceAddressService implements IAddressService
 
     /**
      * RSID using {@link #PROPERTY_GEOLOCATION_RSID} if found, {@link #CONSTANTE_DEFAULT_GEOLOCATION_RSID} otherwise.
+     * 
      * @return RSID value
      */
-    private int getGeolocationRSID(  )
+    private int getGeolocationRSID( )
     {
         return AppPropertiesService.getPropertyInt( PROPERTY_GEOLOCATION_RSID, CONSTANTE_DEFAULT_GEOLOCATION_RSID );
     }
 
     /**
-     * Finds the geolocalsation.
-     * Uses {@link #getGeolocationRSID()} as RSID.
-     * @throws RemoteException the RemoteExecption
-     * @param request Request
-     * @param bIsTest if true test connect at web service, if false search an adress
+     * Finds the geolocalsation. Uses {@link #getGeolocationRSID()} as RSID.
+     * 
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
      * @return the XML flux of an adress
      *
      */
-    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest )
-        throws RemoteException
+    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest ) throws RemoteException
     {
-        return getGeolocalisation( request, getGeolocationRSID(  ), addresse, date, bIsTest );
+        return getGeolocalisation( request, getGeolocationRSID( ), addresse, date, bIsTest );
     }
 
     /**
-     * @throws RemoteException the RemoteExecption
-     * @param request Request
-     * @param id the rsid
-     * @param bIsTest if true test connect at web service, if false search an adress
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param id
+     *            the rsid
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
      * @return the XML flux of an adress
      *
      */
-    public Adresse getGeolocalisation( HttpServletRequest request, long id, String addresse, String date,
-        boolean bIsTest ) throws RemoteException
+    public Adresse getGeolocalisation( HttpServletRequest request, long id, String addresse, String date, boolean bIsTest ) throws RemoteException
     {
         String responseWebService = null;
-        AdresseService adresseService = new AdresseServiceLocator(  );
+        AdresseService adresseService = new AdresseServiceLocator( );
 
         try
         {
@@ -137,38 +143,37 @@ public class WebServiceAddressService implements IAddressService
 
             Stub portType = null;
 
-            if ( ( getUrlWS(  ) == null ) || getUrlWS(  ).equals( "" ) )
+            if ( ( getUrlWS( ) == null ) || getUrlWS( ).equals( "" ) )
             {
-                portType = (Stub) adresseService.getAdresseServiceHttpPort(  );
+                portType = (Stub) adresseService.getAdresseServiceHttpPort( );
             }
             else
             {
                 try
                 {
-                    urlWS = new URL( getUrlWS(  ) );
+                    urlWS = new URL( getUrlWS( ) );
                 }
-                catch ( MalformedURLException e )
+                catch( MalformedURLException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
 
                 portType = (Stub) adresseService.getAdresseServiceHttpPort( urlWS );
             }
 
-            portType.setUsername( getUserName(  ) );
-            portType.setPassword( getPassword(  ) );
+            portType.setUsername( getUserName( ) );
+            portType.setPassword( getPassword( ) );
 
             setTimeout( portType );
 
-            responseWebService = ( (AdresseServicePortType) portType ).geolocalization( getDefaultCity(  ), addresse,
-                    String.valueOf( id ), date );
+            responseWebService = ( (AdresseServicePortType) portType ).geolocalization( getDefaultCity( ), addresse, String.valueOf( id ), date );
         }
-        catch ( ServiceException e )
+        catch( ServiceException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        Adresse adresseReturn = new Adresse(  );
+        Adresse adresseReturn = new Adresse( );
 
         LibraryAddressUtils.fillAddressGeolocation( adresseReturn, responseWebService );
 
@@ -178,18 +183,21 @@ public class WebServiceAddressService implements IAddressService
     }
 
     /**
-    * @throws RemoteException the RemoteExecption
-    * @param request Request
-    * @param id the adress id
-    * @param bIsTest if true test connect at web service, if false search an adress
-    * @return the XML flux of an adress
-    *
-    */
-    public Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest )
-        throws RemoteException
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param id
+     *            the adress id
+     * @param bIsTest
+     *            if true test connect at web service, if false search an adress
+     * @return the XML flux of an adress
+     *
+     */
+    public Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest ) throws RemoteException
     {
         String responseWebService = null;
-        AdresseService adresseService = new AdresseServiceLocator(  );
+        AdresseService adresseService = new AdresseServiceLocator( );
 
         try
         {
@@ -197,37 +205,37 @@ public class WebServiceAddressService implements IAddressService
 
             Stub portType = null;
 
-            if ( ( getUrlWS(  ) == null ) || getUrlWS(  ).equals( "" ) )
+            if ( ( getUrlWS( ) == null ) || getUrlWS( ).equals( "" ) )
             {
-                portType = (Stub) adresseService.getAdresseServiceHttpPort(  );
+                portType = (Stub) adresseService.getAdresseServiceHttpPort( );
             }
             else
             {
                 try
                 {
-                    urlWS = new URL( getUrlWS(  ) );
+                    urlWS = new URL( getUrlWS( ) );
                 }
-                catch ( MalformedURLException e )
+                catch( MalformedURLException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
 
                 portType = (Stub) adresseService.getAdresseServiceHttpPort( urlWS );
             }
 
-            portType.setUsername( getUserName(  ) );
-            portType.setPassword( getPassword(  ) );
+            portType.setUsername( getUserName( ) );
+            portType.setPassword( getPassword( ) );
 
             setTimeout( portType );
 
-            responseWebService = ( (AdresseServicePortType) portType ).getAdresseInfo( getDefaultCity(  ), id );
+            responseWebService = ( (AdresseServicePortType) portType ).getAdresseInfo( getDefaultCity( ), id );
         }
-        catch ( ServiceException e )
+        catch( ServiceException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        //      traitement du flux xml
+        // traitement du flux xml
         fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse adresse = null;
 
         JAXBContext jc;
@@ -236,42 +244,41 @@ public class WebServiceAddressService implements IAddressService
         {
             jc = JAXBContext.newInstance( JAXB_CONTEXT_WS_FICHE_ADDRESS );
 
-            Unmarshaller u = jc.createUnmarshaller(  );
+            Unmarshaller u = jc.createUnmarshaller( );
             StringBuffer xmlStr = new StringBuffer( responseWebService );
-            adresse = (fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse) u.unmarshal( new StreamSource( 
-                        new StringReader( xmlStr.toString(  ) ) ) );
+            adresse = (fr.paris.lutece.plugins.address.business.jaxb.wsFicheAdresse.Adresse) u
+                    .unmarshal( new StreamSource( new StringReader( xmlStr.toString( ) ) ) );
         }
-        catch ( JAXBException e )
+        catch( JAXBException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        Adresse adresseReturn = new Adresse(  );
+        Adresse adresseReturn = new Adresse( );
 
-        adresseReturn.setIadresse( adresse.getIdentifiant(  ) );
-        adresseReturn.setDunumero( adresse.getNumero(  ) );
-        adresseReturn.setDubis( adresse.getSuffixe1(  ) );
-        adresseReturn.setCodeCommune( adresse.getCodeInsee(  ).toString(  ) );
-        adresseReturn.setVille( adresse.getCommune(  ) );
+        adresseReturn.setIadresse( adresse.getIdentifiant( ) );
+        adresseReturn.setDunumero( adresse.getNumero( ) );
+        adresseReturn.setDubis( adresse.getSuffixe1( ) );
+        adresseReturn.setCodeCommune( adresse.getCodeInsee( ).toString( ) );
+        adresseReturn.setVille( adresse.getCommune( ) );
 
         // FIXME : use this when SRID can be passed to getAdressInfo
-        // String strGeometry = adresse.getGeometry(  );
-        // 
+        // String strGeometry = adresse.getGeometry( );
+        //
         // LibraryAddressUtils.fillAddressGeolocation( adresseReturn, strGeometry );
         if ( !bIsTest )
         {
-            List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAddress = getListWSAdresses( request )
-                                                                                                          .getAdresse(  );
+            List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAddress = getListWSAdresses( request ).getAdresse( );
 
             for ( fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse currentAdresse : listAddress )
             {
-                if ( String.valueOf( currentAdresse.getIdentifiant(  ) ).equals( String.valueOf( id ) ) )
+                if ( String.valueOf( currentAdresse.getIdentifiant( ) ).equals( String.valueOf( id ) ) )
                 {
-                    adresseReturn.setTypeVoie( currentAdresse.getTypeVoie(  ) );
-                    adresseReturn.setLibelleVoie( currentAdresse.getNomVoie(  ) );
+                    adresseReturn.setTypeVoie( currentAdresse.getTypeVoie( ) );
+                    adresseReturn.setLibelleVoie( currentAdresse.getNomVoie( ) );
 
                     // FIXME : see on top
-                    LibraryAddressUtils.fillAddressGeolocation( adresseReturn, currentAdresse.getGeometry(  ) );
+                    LibraryAddressUtils.fillAddressGeolocation( adresseReturn, currentAdresse.getGeometry( ) );
 
                     break;
                 }
@@ -284,17 +291,19 @@ public class WebServiceAddressService implements IAddressService
     }
 
     /**
-    * @throws RemoteException the RemoteExecption
-    * @param request Request
-    * @param labeladresse the  label adress
-    * @return the XML flux of all adress corresponding
-    *
-    */
-    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse )
-        throws RemoteException
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param labeladresse
+     *            the label adress
+     * @return the XML flux of all adress corresponding
+     *
+     */
+    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse ) throws RemoteException
     {
         String responseWebService = null;
-        AdresseService adresseService = new AdresseServiceLocator(  );
+        AdresseService adresseService = new AdresseServiceLocator( );
 
         try
         {
@@ -302,31 +311,30 @@ public class WebServiceAddressService implements IAddressService
 
             Stub portType = null;
 
-            if ( ( getUrlWS(  ) == null ) || getUrlWS(  ).equals( "" ) )
+            if ( ( getUrlWS( ) == null ) || getUrlWS( ).equals( "" ) )
             {
-                portType = (Stub) adresseService.getAdresseServiceHttpPort(  );
+                portType = (Stub) adresseService.getAdresseServiceHttpPort( );
             }
             else
             {
                 try
                 {
-                    urlWS = new URL( getUrlWS(  ) );
+                    urlWS = new URL( getUrlWS( ) );
                 }
-                catch ( MalformedURLException e )
+                catch( MalformedURLException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
 
                 portType = (Stub) adresseService.getAdresseServiceHttpPort( urlWS );
             }
 
-            portType.setUsername( getUserName(  ) );
-            portType.setPassword( getPassword(  ) );
+            portType.setUsername( getUserName( ) );
+            portType.setPassword( getPassword( ) );
 
             setTimeout( portType );
 
-            responseWebService = ( (AdresseServicePortType) portType ).searchAddress( getDefaultCity(  ), labeladresse,
-                    null, getDateSearch(  ) );
+            responseWebService = ( (AdresseServicePortType) portType ).searchAddress( getDefaultCity( ), labeladresse, null, getDateSearch( ) );
 
             // check null result and then return null list
             if ( responseWebService == null )
@@ -334,12 +342,12 @@ public class WebServiceAddressService implements IAddressService
                 return null;
             }
         }
-        catch ( ServiceException e )
+        catch( ServiceException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        //traitement du flux xml		
+        // traitement du flux xml
         Adresses adresses = null;
 
         JAXBContext jc;
@@ -348,62 +356,60 @@ public class WebServiceAddressService implements IAddressService
         {
             jc = JAXBContext.newInstance( JAXB_CONTEXT_WS_SEARCH_ADDRESS );
 
-            Unmarshaller u = jc.createUnmarshaller(  );
+            Unmarshaller u = jc.createUnmarshaller( );
             StringBuffer xmlStr = new StringBuffer( responseWebService );
-            adresses = (Adresses) u.unmarshal( new StreamSource( new StringReader( xmlStr.toString(  ) ) ) );
+            adresses = (Adresses) u.unmarshal( new StreamSource( new StringReader( xmlStr.toString( ) ) ) );
         }
-        catch ( JAXBException e )
+        catch( JAXBException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAdresses = adresses.getAdresse(  );
+        List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAdresses = adresses.getAdresse( );
 
         ReferenceList refList = null;
 
-        //      Added for filter the double adresse
+        // Added for filter the double adresse
         Set<AdresseElement> eltSet = null;
 
-        //build the list choice
-        if ( ( listAdresses != null ) && !listAdresses.isEmpty(  ) )
+        // build the list choice
+        if ( ( listAdresses != null ) && !listAdresses.isEmpty( ) )
         {
-            refList = new ReferenceList(  );
+            refList = new ReferenceList( );
 
-            //Added for filter the double adresse
-            eltSet = new HashSet<AdresseElement>(  );
+            // Added for filter the double adresse
+            eltSet = new HashSet<AdresseElement>( );
 
             for ( fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse currentAdresse : listAdresses )
             {
                 String suffixe = "";
 
-                if ( currentAdresse.getSuffixe(  ) != null )
+                if ( currentAdresse.getSuffixe( ) != null )
                 {
-                    suffixe = currentAdresse.getSuffixe(  );
+                    suffixe = currentAdresse.getSuffixe( );
                 }
 
                 String strCurrentAdresse = "";
 
-                if ( currentAdresse.getTypeVoie(  ) == null )
+                if ( currentAdresse.getTypeVoie( ) == null )
                 {
-                    strCurrentAdresse = currentAdresse.getNumero(  ) + " " + suffixe + " " +
-                        currentAdresse.getNomVoie(  ) + " " + currentAdresse.getCommune(  );
-                }
-                else if ( LibraryAddressUtils.isTerminateByApostrophe( currentAdresse.getTypeVoie(  ) ) )
-                {
-                    strCurrentAdresse = currentAdresse.getNumero(  ) + " " + suffixe + " " +
-                        currentAdresse.getTypeVoie(  ) + currentAdresse.getNomVoie(  ) + " " +
-                        currentAdresse.getCommune(  );
+                    strCurrentAdresse = currentAdresse.getNumero( ) + " " + suffixe + " " + currentAdresse.getNomVoie( ) + " " + currentAdresse.getCommune( );
                 }
                 else
-                {
-                    strCurrentAdresse = currentAdresse.getNumero(  ) + " " + suffixe + " " +
-                        currentAdresse.getTypeVoie(  ) + " " + currentAdresse.getNomVoie(  ) + " " +
-                        currentAdresse.getCommune(  );
-                }
+                    if ( LibraryAddressUtils.isTerminateByApostrophe( currentAdresse.getTypeVoie( ) ) )
+                    {
+                        strCurrentAdresse = currentAdresse.getNumero( ) + " " + suffixe + " " + currentAdresse.getTypeVoie( ) + currentAdresse.getNomVoie( )
+                                + " " + currentAdresse.getCommune( );
+                    }
+                    else
+                    {
+                        strCurrentAdresse = currentAdresse.getNumero( ) + " " + suffixe + " " + currentAdresse.getTypeVoie( ) + " "
+                                + currentAdresse.getNomVoie( ) + " " + currentAdresse.getCommune( );
+                    }
 
-                String strIdAdresse = currentAdresse.getIdentifiant(  ).toString(  );
+                String strIdAdresse = currentAdresse.getIdentifiant( ).toString( );
 
-                //Added for filter the double adresse
+                // Added for filter the double adresse
                 boolean isAdded = eltSet.add( new AdresseElement( strIdAdresse, strCurrentAdresse ) );
 
                 if ( isAdded )
@@ -419,34 +425,41 @@ public class WebServiceAddressService implements IAddressService
     }
 
     /**
-     * @throws RemoteException the RemoteExecption
-     * @param request Request
-     * @param labeladresse the  label adress
-     * @param strArrondissement Arrondissement
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param request
+     *            Request
+     * @param labeladresse
+     *            the label adress
+     * @param strArrondissement
+     *            Arrondissement
      * @return the XML flux of all adress corresponding
      * @see <a href="http://dev.lutece.paris.fr/jira/browse/ADDRESS-8">ADDRESS-8</a>
      *
      */
-    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement )
-        throws RemoteException
+    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strArrondissement ) throws RemoteException
     {
-        return searchAddress( request, labeladresse, Integer.toString( getGeolocationRSID(  ) ), strArrondissement );
+        return searchAddress( request, labeladresse, Integer.toString( getGeolocationRSID( ) ), strArrondissement );
     }
 
     /**
-     * @throws RemoteException the RemoteExecption
-     * @param strSRID the srsid
-     * @param request Request
-     * @param labeladresse the  label adress
-     * @param strArrondissement Arrondissement
+     * @throws RemoteException
+     *             the RemoteExecption
+     * @param strSRID
+     *            the srsid
+     * @param request
+     *            Request
+     * @param labeladresse
+     *            the label adress
+     * @param strArrondissement
+     *            Arrondissement
      * @return the XML flux of all adress corresponding
      * @see <a href="http://dev.lutece.paris.fr/jira/browse/ADDRESS-8">ADDRESS-8</a>
      */
-    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID,
-        String strArrondissement ) throws RemoteException
+    public ReferenceList searchAddress( HttpServletRequest request, String labeladresse, String strSRID, String strArrondissement ) throws RemoteException
     {
         String responseWebService = null;
-        AdresseService adresseService = new AdresseServiceLocator(  );
+        AdresseService adresseService = new AdresseServiceLocator( );
 
         try
         {
@@ -454,31 +467,30 @@ public class WebServiceAddressService implements IAddressService
 
             Stub portType = null;
 
-            if ( ( getUrlWS(  ) == null ) || getUrlWS(  ).equals( "" ) )
+            if ( ( getUrlWS( ) == null ) || getUrlWS( ).equals( "" ) )
             {
-                portType = (Stub) adresseService.getAdresseServiceHttpPort(  );
+                portType = (Stub) adresseService.getAdresseServiceHttpPort( );
             }
             else
             {
                 try
                 {
-                    urlWS = new URL( getUrlWS(  ) );
+                    urlWS = new URL( getUrlWS( ) );
                 }
-                catch ( MalformedURLException e )
+                catch( MalformedURLException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
 
                 portType = (Stub) adresseService.getAdresseServiceHttpPort( urlWS );
             }
 
-            portType.setUsername( getUserName(  ) );
-            portType.setPassword( getPassword(  ) );
+            portType.setUsername( getUserName( ) );
+            portType.setPassword( getPassword( ) );
 
             setTimeout( portType );
 
-            responseWebService = ( (AdresseServicePortType) portType ).searchAddress( getDefaultCity(  ), labeladresse,
-                    strSRID, getDateSearch(  ) );
+            responseWebService = ( (AdresseServicePortType) portType ).searchAddress( getDefaultCity( ), labeladresse, strSRID, getDateSearch( ) );
 
             // check null result and then return null list
             if ( responseWebService == null )
@@ -486,12 +498,12 @@ public class WebServiceAddressService implements IAddressService
                 return null;
             }
         }
-        catch ( ServiceException e )
+        catch( ServiceException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        //traitement du flux xml		
+        // traitement du flux xml
         Adresses adresses = null;
 
         JAXBContext jc;
@@ -500,62 +512,60 @@ public class WebServiceAddressService implements IAddressService
         {
             jc = JAXBContext.newInstance( JAXB_CONTEXT_WS_SEARCH_ADDRESS );
 
-            Unmarshaller u = jc.createUnmarshaller(  );
+            Unmarshaller u = jc.createUnmarshaller( );
             StringBuffer xmlStr = new StringBuffer( responseWebService );
-            adresses = (Adresses) u.unmarshal( new StreamSource( new StringReader( xmlStr.toString(  ) ) ) );
+            adresses = (Adresses) u.unmarshal( new StreamSource( new StringReader( xmlStr.toString( ) ) ) );
         }
-        catch ( JAXBException e )
+        catch( JAXBException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAdresses = adresses.getAdresse(  );
+        List<fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse> listAdresses = adresses.getAdresse( );
 
         ReferenceList refList = null;
 
-        //      Added for filter the double adresse
+        // Added for filter the double adresse
         Set<AdresseElement> eltSet = null;
 
-        //build the list choice
-        if ( ( listAdresses != null ) && !listAdresses.isEmpty(  ) )
+        // build the list choice
+        if ( ( listAdresses != null ) && !listAdresses.isEmpty( ) )
         {
-            refList = new ReferenceList(  );
+            refList = new ReferenceList( );
 
-            //Added for filter the double adresse
-            eltSet = new HashSet<AdresseElement>(  );
+            // Added for filter the double adresse
+            eltSet = new HashSet<AdresseElement>( );
 
             for ( fr.paris.lutece.plugins.address.business.jaxb.wsSearchAdresse.Adresse currentAdresse : listAdresses )
             {
                 String suffixe = "";
 
-                if ( currentAdresse.getSuffixe(  ) != null )
+                if ( currentAdresse.getSuffixe( ) != null )
                 {
-                    suffixe = currentAdresse.getSuffixe(  );
+                    suffixe = currentAdresse.getSuffixe( );
                 }
 
                 String strCurrentAdresse = "";
 
-                if ( currentAdresse.getTypeVoie(  ) == null )
+                if ( currentAdresse.getTypeVoie( ) == null )
                 {
-                    strCurrentAdresse = currentAdresse.getNumero(  ) + " " + suffixe + " " +
-                        currentAdresse.getNomVoie(  ) + " " + currentAdresse.getCommune(  );
-                }
-                else if ( LibraryAddressUtils.isTerminateByApostrophe( currentAdresse.getTypeVoie(  ) ) )
-                {
-                    strCurrentAdresse = currentAdresse.getNumero(  ) + " " + suffixe + " " +
-                        currentAdresse.getTypeVoie(  ) + currentAdresse.getNomVoie(  ) + " " +
-                        currentAdresse.getCommune(  );
+                    strCurrentAdresse = currentAdresse.getNumero( ) + " " + suffixe + " " + currentAdresse.getNomVoie( ) + " " + currentAdresse.getCommune( );
                 }
                 else
-                {
-                    strCurrentAdresse = currentAdresse.getNumero(  ) + " " + suffixe + " " +
-                        currentAdresse.getTypeVoie(  ) + " " + currentAdresse.getNomVoie(  ) + " " +
-                        currentAdresse.getCommune(  );
-                }
+                    if ( LibraryAddressUtils.isTerminateByApostrophe( currentAdresse.getTypeVoie( ) ) )
+                    {
+                        strCurrentAdresse = currentAdresse.getNumero( ) + " " + suffixe + " " + currentAdresse.getTypeVoie( ) + currentAdresse.getNomVoie( )
+                                + " " + currentAdresse.getCommune( );
+                    }
+                    else
+                    {
+                        strCurrentAdresse = currentAdresse.getNumero( ) + " " + suffixe + " " + currentAdresse.getTypeVoie( ) + " "
+                                + currentAdresse.getNomVoie( ) + " " + currentAdresse.getCommune( );
+                    }
 
-                String strIdAdresse = currentAdresse.getIdentifiant(  ).toString(  );
+                String strIdAdresse = currentAdresse.getIdentifiant( ).toString( );
 
-                String arr = currentAdresse.getCommune(  );
+                String arr = currentAdresse.getCommune( );
                 int index = arr.indexOf( "E" );
                 if ( index > 2 )
                 {
@@ -572,7 +582,7 @@ public class WebServiceAddressService implements IAddressService
                     arr = StringUtils.EMPTY;
                 }
 
-                //Added for filter the double adresse
+                // Added for filter the double adresse
                 boolean isAdded = eltSet.add( new AdresseElement( strIdAdresse, strCurrentAdresse ) );
 
                 if ( isAdded )
@@ -591,17 +601,18 @@ public class WebServiceAddressService implements IAddressService
     }
 
     /**
-    *
-    * @return the date for parameter methodes of web service
-    */
-    public String getDateSearch(  )
+     *
+     * @return the date for parameter methodes of web service
+     */
+    public String getDateSearch( )
     {
         return _strDateSearch;
     }
 
     /**
      *
-     * @param strDateSearch the new date search
+     * @param strDateSearch
+     *            the new date search
      */
     public void setDateSearch( String strDateSearch )
     {
@@ -612,14 +623,15 @@ public class WebServiceAddressService implements IAddressService
      *
      * @return the default city for parameter methodes of web service
      */
-    public String getDefaultCity(  )
+    public String getDefaultCity( )
     {
         return _strDefaultCity;
     }
 
     /**
      *
-     * @param strDefaultCity the new default city
+     * @param strDefaultCity
+     *            the new default city
      */
     public void setDefaultCity( String strDefaultCity )
     {
@@ -630,14 +642,15 @@ public class WebServiceAddressService implements IAddressService
      *
      * @return the url of the web service
      */
-    public String getUrlWS(  )
+    public String getUrlWS( )
     {
         return _strUrlWS;
     }
 
     /**
      *
-     * @param strUrlWS the new web service url
+     * @param strUrlWS
+     *            the new web service url
      */
     public void setUrlWS( String strUrlWS )
     {
@@ -648,14 +661,15 @@ public class WebServiceAddressService implements IAddressService
      *
      * @return the password
      */
-    public String getPassword(  )
+    public String getPassword( )
     {
         return _strPassword;
     }
 
     /**
      *
-     * @param password the password
+     * @param password
+     *            the password
      */
     public void setPassword( String password )
     {
@@ -666,14 +680,15 @@ public class WebServiceAddressService implements IAddressService
      *
      * @return the user name
      */
-    public String getUserName(  )
+    public String getUserName( )
     {
         return _strUserName;
     }
 
     /**
      *
-     * @param userName the user name
+     * @param userName
+     *            the user name
      */
     public void setUserName( String userName )
     {
@@ -681,17 +696,18 @@ public class WebServiceAddressService implements IAddressService
     }
 
     /**
-    *
-    * @return the timeout
-    */
-    public String getTimeOut(  )
+     *
+     * @return the timeout
+     */
+    public String getTimeOut( )
     {
         return _strTimeOut;
     }
 
     /**
      *
-     * @param timeOut the timeout
+     * @param timeOut
+     *            the timeout
      */
     public void setTimeOut( String timeOut )
     {
@@ -700,64 +716,69 @@ public class WebServiceAddressService implements IAddressService
 
     /**
      * Sets the timeout to the stub
+     * 
      * @param portType
      */
     private void setTimeout( Stub portType )
     {
         try
         {
-            portType.setTimeout( Integer.parseInt( getTimeOut(  ) ) );
+            portType.setTimeout( Integer.parseInt( getTimeOut( ) ) );
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
-            AppLogService.error( 
-                "WebServiceAddressService : timeOut is not set correctly for WebServiceAddressService. Please check address_context.xml. Will use no timeout" );
+            AppLogService.error(
+                    "WebServiceAddressService : timeOut is not set correctly for WebServiceAddressService. Please check address_context.xml. Will use no timeout" );
         }
     }
 
     /**
      *
-     * @param request Resquest
+     * @param request
+     *            Resquest
      * @return adresses
      */
     private Adresses getListWSAdresses( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
         String strSessionAttribute = SESSION_LIST_ADDRESS_NAME;
-        strSessionAttribute = strSessionAttribute.toUpperCase(  );
+        strSessionAttribute = strSessionAttribute.toUpperCase( );
 
         return (Adresses) session.getAttribute( strSessionAttribute );
     }
 
     /**
      *
-     * @param request Request
-     * @param adresses Adresses
+     * @param request
+     *            Request
+     * @param adresses
+     *            Adresses
      */
     private void setListWSAdresses( HttpServletRequest request, Adresses adresses )
     {
         HttpSession session = request.getSession( true );
         String strSessionAttribute = SESSION_LIST_ADDRESS_NAME;
-        strSessionAttribute = strSessionAttribute.toUpperCase(  );
+        strSessionAttribute = strSessionAttribute.toUpperCase( );
         session.setAttribute( strSessionAttribute, adresses );
     }
 
     /**
-    *
-    * @param request Request
-    * @param strAttributeName Name attribute
-    */
+     *
+     * @param request
+     *            Request
+     * @param strAttributeName
+     *            Name attribute
+     */
     private void cleanListWSAdresses( HttpServletRequest request, String strAttributeName )
     {
         HttpSession session = request.getSession( true );
         String strSessionAttribute = strAttributeName;
-        strSessionAttribute = strSessionAttribute.toUpperCase(  );
+        strSessionAttribute = strSessionAttribute.toUpperCase( );
         session.removeAttribute( strSessionAttribute );
     }
 
     /**
-     * Added for filter the double adresse
-     * An adresse element for eliminate element already present
+     * Added for filter the double adresse An adresse element for eliminate element already present
      */
     private class AdresseElement
     {
@@ -767,8 +788,10 @@ public class WebServiceAddressService implements IAddressService
         /**
          * Instance a new AdresseElement
          *
-         * @param strIdAdresse the adresse id
-         * @param strLabelAdresse the adresse label
+         * @param strIdAdresse
+         *            the adresse id
+         * @param strLabelAdresse
+         *            the adresse label
          */
         public AdresseElement( String strIdAdresse, String strLabelAdresse )
         {
@@ -778,40 +801,44 @@ public class WebServiceAddressService implements IAddressService
 
         /**
          * Get The label adresse
+         * 
          * @return the _labelAdresse
          */
-        public String getLabelAdresse(  )
+        public String getLabelAdresse( )
         {
             return _labelAdresse;
         }
 
         /**
          * Get The label adresse
+         * 
          * @return the _idAdresse
          */
-        public String getIdAdresse(  )
+        public String getIdAdresse( )
         {
             return _idAdresse;
         }
 
         /**
          * Get The hashcode for labelAdresse
+         * 
          * @return the _idAdresse
          */
-        public int hashCode(  )
+        public int hashCode( )
         {
-            return _labelAdresse.hashCode(  );
+            return _labelAdresse.hashCode( );
         }
 
         /**
-         * @param o Object
+         * @param o
+         *            Object
          * @return boolean
          */
         public boolean equals( Object o )
         {
             AdresseElement adresseToCompare = (AdresseElement) o;
 
-            return this._labelAdresse.equals( adresseToCompare.getLabelAdresse(  ) );
+            return this._labelAdresse.equals( adresseToCompare.getLabelAdresse( ) );
         }
     }
 }
