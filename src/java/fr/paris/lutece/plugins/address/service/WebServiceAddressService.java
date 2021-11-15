@@ -65,7 +65,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.rpc.ServiceException;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
