@@ -8,7 +8,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>plugin-address</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
     <name>Lutece address service plugin</name>
     <repositories>
         <repository>
@@ -148,6 +148,6 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-tech-plugin-address.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-tech-plugin-address.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-tech-plugin-address.git</url>
-      <tag>HEAD</tag>
+      <tag>plugin-address-1.0.8</tag>
   </scm>
 </project>
