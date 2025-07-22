@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.address.util;
 
-import fr.paris.lutece.plugins.address.business.jaxb.Adresse;
+import fr.paris.lutece.plugins.address.business.Address;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -176,12 +176,12 @@ public final class LibraryAddressUtils
      * Fills the address with x and y geolocation using strGeometry. <code>POINT (123.456789 987.654321)</code> will give <code>x = 123.456789</code> and
      * <code>y = 987.654321</code>. Set x and y to 0 if x or y is not a number.
      * 
-     * @param adresse
+     * @param Address
      *            the address to fill
      * @param strGeometry
      *            the geometry string
      */
-    public static void fillAddressGeolocation( Adresse adresse, String strGeometry )
+    public static void fillAddressGeolocation( Address Address, String strGeometry )
     {
         if ( StringUtils.isNotBlank( strGeometry ) && strGeometry.matches( VALID_GEOMETRY_REGEX ) )
         {
@@ -189,67 +189,74 @@ public final class LibraryAddressUtils
 
             try
             {
-                adresse.setGeoX( Float.parseFloat( strCleanedGeometry.substring( 0, strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ) ) ) );
-                adresse.setGeoY( Float
-                        .parseFloat( strCleanedGeometry.substring( strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ), strCleanedGeometry.length( ) ) ) );
+                Address.setGeoX( Long.parseLong( strCleanedGeometry.substring( 0, strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ) ) ) );
+                Address.setGeoY( Long.parseLong( strCleanedGeometry.substring( strCleanedGeometry.lastIndexOf( CONSTANT_ONE_SPACE ), strCleanedGeometry.length( ) ) ) );
             }
             catch( NumberFormatException nfe )
             {
                 // set to 0
                 AppLogService.error( "LibraryAddressUtils.fillAddressGeolocation failed for " + strGeometry + " " + nfe.getLocalizedMessage( ) );
-                adresse.setGeoX( 0 );
-                adresse.setGeoY( 0 );
+                Address.setGeoX( (long) 0 );
+                Address.setGeoY( (long) 0 );
             }
         }
     }
 
     /**
-     * String representation of the adresse
+     * String representation of the Address
      * 
-     * @param adresse
-     *            the adresse
+     * @param Address
+     *            the Address
      * @return the string
      */
-    public static String normalizeAddress( Adresse adresse )
+    @Deprecated
+    public static String normalizeAddress( Address Address )
     {
+        if(!Address.getAddressTypo().isEmpty()){
+            return Address.getAddressTypo();
+        }
+
+        else {
         StringBuilder sbAddress = new StringBuilder( );
 
-        sbAddress.append( ObjectUtils.toString( adresse.getDunumero( ) ) );
+        sbAddress.append( Address.getStreetNumber( ) );
         sbAddress.append( CONSTANT_ONE_SPACE );
 
-        if ( StringUtils.isNotBlank( adresse.getDubis( ) ) )
+        if ( StringUtils.isNotBlank( Address.getBisLabel( ) ) )
         {
-            sbAddress.append( ObjectUtils.toString( adresse.getDubis( ) ) );
+            sbAddress.append( Address.getBisLabel( ) );
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        sbAddress.append( ObjectUtils.toString( adresse.getTypeVoie( ) ) );
+        sbAddress.append( Address.getStreetType( )  );
 
-        if ( !LibraryAddressUtils.isTerminateByApostrophe( adresse.getTypeVoie( ) ) )
+        if ( !LibraryAddressUtils.isTerminateByApostrophe( Address.getStreetType( ) ) )
         {
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        sbAddress.append( ObjectUtils.toString( adresse.getLibelleVoie( ) ) );
+        sbAddress.append( Address.getStreetLabel( ) );
         sbAddress.append( CONSTANT_COMA );
         sbAddress.append( CONSTANT_ONE_SPACE );
 
-        if ( StringUtils.isNotBlank( adresse.getComplement1Adresse( ) ) )
+        if ( StringUtils.isNotBlank( Address.getAddressLine1( ) ) )
         {
-            sbAddress.append( adresse.getComplement1Adresse( ) );
+            sbAddress.append( Address.getAddressLine1( ) );
             sbAddress.append( CONSTANT_COMA );
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        if ( StringUtils.isNotBlank( adresse.getComplement2Adresse( ) ) )
+        if ( StringUtils.isNotBlank( Address.getAddressLine2( ) ) )
         {
-            sbAddress.append( adresse.getComplement2Adresse( ) );
+            sbAddress.append( Address.getAddressLine2( ) );
             sbAddress.append( CONSTANT_COMA );
             sbAddress.append( CONSTANT_ONE_SPACE );
         }
 
-        sbAddress.append( ObjectUtils.toString( adresse.getVille( ) ) );
+        sbAddress.append( Address.getPostalCode( ) );
+        sbAddress.append( Address.getCity( ) );
 
         return sbAddress.toString( );
+        }
     }
 }

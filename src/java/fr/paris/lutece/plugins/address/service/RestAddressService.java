@@ -36,7 +36,7 @@ package fr.paris.lutece.plugins.address.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import fr.paris.lutece.plugins.address.business.jaxb.Adresse;
+import fr.paris.lutece.plugins.address.business.Address;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceItem;
@@ -49,15 +49,21 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.rmi.RemoteException;
-import javassist.bytecode.stackmap.BasicBlock;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+import fr.paris.lutece.plugins.priority.annotation.LutecePriority;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  */
+@ApplicationScoped
+@Alternative
+@LutecePriority( "address.provider.rest" )
 public class RestAddressService implements IAddressService
 {
 
@@ -96,7 +102,7 @@ public class RestAddressService implements IAddressService
             HttpAccess ha = new HttpAccess( );
             if ( StringUtil.containsXssCharacters( searchTerm ) )
             {
-                Logger logger = Logger.getLogger( SECURITY_LOGGER_NAME );
+                Logger logger = LogManager.getLogger( SECURITY_LOGGER_NAME );
                 logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED : " + searchTerm );
                 return null;
             }
@@ -187,12 +193,12 @@ public class RestAddressService implements IAddressService
      * @return the XML flux of an adress
      *
      */
-    public Adresse getGeolocalisation( HttpServletRequest request, String idAdr )
+    public Address getGeolocalisation( HttpServletRequest request, String idAdr )
     {
 
         if ( StringUtil.containsXssCharacters( idAdr ) )
         {
-            Logger logger = Logger.getLogger( SECURITY_LOGGER_NAME );
+            Logger logger = LogManager.getLogger( SECURITY_LOGGER_NAME );
             logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED : " + idAdr );
             return null;
         }
@@ -221,7 +227,7 @@ public class RestAddressService implements IAddressService
      *
      */
     @Override
-    public Adresse getGeolocalisation( HttpServletRequest request, long idAdr, String strAddress, String strDate, boolean bIsTest )
+    public Address getGeolocalisation( HttpServletRequest request, long idAdr, String strAddress, String strDate, boolean bIsTest )
     {
         try
         {
@@ -265,7 +271,7 @@ public class RestAddressService implements IAddressService
      * @param jsonNode
      * @return the sector
      */
-    private static Adresse jsonToGeoloc( JsonNode jsonNode )
+    private static Address jsonToGeoloc( JsonNode jsonNode )
     {
 
         // Parse json
@@ -282,7 +288,7 @@ public class RestAddressService implements IAddressService
 
                     if ( jsonGeolocX != null )
                     {
-                        Adresse adresseReturn = new Adresse( );
+                        Address adresseReturn = new Address( );
 
                         adresseReturn.setGeoX( jsonGeolocX.asLong( ) );
                         adresseReturn.setGeoY( jsonGeolocY.asLong( ) );
@@ -306,10 +312,10 @@ public class RestAddressService implements IAddressService
      * @return the XML flux of an adress
      *
      */
-    public Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest )
+    public Address getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest )
     {
 
-        Adresse adresseReturn = new Adresse( );
+        Address adresseReturn = new Address( );
 
         return adresseReturn;
     }
@@ -321,9 +327,14 @@ public class RestAddressService implements IAddressService
     }
 
     @Override
-    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest ) throws RemoteException
+    public Address getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest ) throws RemoteException
     {
         return getGeolocalisation( request, addresse, date, bIsTest );
+    }
+
+    @Override
+    public String getSimpleName( ) {
+        return "RestAddressService";
     }
 
 }

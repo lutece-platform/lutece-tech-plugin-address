@@ -33,20 +33,27 @@
  */
 package fr.paris.lutece.plugins.address.service;
 
-import fr.paris.lutece.plugins.address.business.jaxb.Adresse;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.plugins.address.business.Address;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.rmi.RemoteException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
+ * Deprecated with CDI injection.
+ * Inject the CDI bean using :
  *
+ * @Inject 
+ * IAddressService addressService
+ * 
  */
+@Deprecated
 public final class AddressServiceProvider
 {
-    private static IAddressService _service = (IAddressService) SpringContextService.getBean( "adresseService" );
+    private static IAddressService _service = CDI.current( ).select( IAddressService.class ).get( );
 
     /**
      *
@@ -54,6 +61,7 @@ public final class AddressServiceProvider
      */
     private AddressServiceProvider( )
     {
+        
     }
 
     /**
@@ -100,7 +108,7 @@ public final class AddressServiceProvider
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest ) throws RemoteException
+    public static Address getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest ) throws RemoteException
     {
         return _service.getAdresseInfo( request, id, bIsTest );
     }
@@ -115,7 +123,7 @@ public final class AddressServiceProvider
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getGeolocalisation( HttpServletRequest request, String strAddress, String strDate, boolean bIsTest ) throws RemoteException
+    public static Address getGeolocalisation( HttpServletRequest request, String strAddress, String strDate, boolean bIsTest ) throws RemoteException
     {
         return _service.getGeolocalisation( request, strAddress, strDate, bIsTest );
     }
@@ -132,18 +140,18 @@ public final class AddressServiceProvider
      * @return the XML flux of an adress
      *
      */
-    public static Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest ) throws RemoteException
+    public static Address getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest ) throws RemoteException
     {
         return _service.getGeolocalisation( request, id, strAddress, strDate, bIsTest );
     }
 
     /**
-     * returns the class of instanciated address service provider
+     * Returns the class of instanciated address service provider
      * 
      * @return the simple name of the class
      */
     public static String getInstanceClass( )
     {
-        return _service.getClass( ).getSimpleName( );
+        return _service.getSimpleName( );
     }
 }
