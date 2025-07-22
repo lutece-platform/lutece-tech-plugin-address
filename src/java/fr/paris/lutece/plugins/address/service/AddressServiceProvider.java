@@ -43,8 +43,14 @@ import jakarta.inject.Inject;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**
+ * Deprecated with CDI injection.
+ * Inject the CDI bean using :
  *
+ * @Inject 
+ * IAddressService addressService
+ * 
  */
+@Deprecated
 public final class AddressServiceProvider
 {
     private static IAddressService _service = CDI.current( ).select( IAddressService.class ).get( );
