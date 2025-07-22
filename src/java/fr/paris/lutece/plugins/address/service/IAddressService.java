@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.plugins.address.service;
 
-import fr.paris.lutece.plugins.address.business.jaxb.Adresse;
+import fr.paris.lutece.plugins.address.business.Address;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.rmi.RemoteException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -99,7 +99,7 @@ public interface IAddressService
      * @return the XML flux of an adress
      *
      */
-    Adresse getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest ) throws RemoteException;
+    Address getAdresseInfo( HttpServletRequest request, long id, boolean bIsTest ) throws RemoteException;
 
     /**
      * Finds the geolocalsation. Uses a default RSID.
@@ -114,7 +114,7 @@ public interface IAddressService
      * @see WebServiceAddressService#getGeolocalisation(HttpServletRequest, String, String, boolean)
      *
      */
-    public Adresse getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest ) throws RemoteException;
+    public Address getGeolocalisation( HttpServletRequest request, String addresse, String date, boolean bIsTest ) throws RemoteException;
 
     /**
      * @throws RemoteException
@@ -128,5 +128,8 @@ public interface IAddressService
      * @return the XML flux of an adress
      *
      */
-    Adresse getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest ) throws RemoteException;
+    Address getGeolocalisation( HttpServletRequest request, long id, String strAddress, String strDate, boolean bIsTest ) throws RemoteException;
+
+
+    String getSimpleName( );
 }

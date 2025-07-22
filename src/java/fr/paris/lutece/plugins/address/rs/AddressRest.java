@@ -42,22 +42,23 @@ import fr.paris.lutece.util.json.JsonResponse;
 import fr.paris.lutece.util.json.JsonUtil;
 import java.rmi.RemoteException;
 
-import org.apache.log4j.Logger;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 /**
- * RentRest
+ * AddressRest
  */
 @Path( RestConstants.BASE_PATH + Constants.API_PATH + Constants.VERSION_PATH )
 public class AddressRest
 {
     private static final int VERSION_1 = 1;
-    private final Logger _logger = Logger.getLogger( RestConstants.REST_LOGGER );
+    private final Logger _logger = LogManager.getLogger( RestConstants.REST_LOGGER );
 
     // Msg
     private static final String MSG_ERROR_GET_ADDRESSES = "address.message.getAdress.error";
