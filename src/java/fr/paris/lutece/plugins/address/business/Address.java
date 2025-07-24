@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Address
 {
+    private String _idAddress;
     private String _Addresstypo;
     private String _streetNumber;
     private String _bisLabel;
@@ -49,6 +50,12 @@ public class Address
 
     private Long _geoX;
     private Long _geoY;
+
+    @JsonProperty( "Idadrposte" )
+    public void setIdAddress( String idAddress )
+    {
+        this._idAddress = idAddress;
+    }
 
     @JsonProperty( "Adressetypo" )
     private void setAdressTypo( String libelletypo )
@@ -79,6 +86,11 @@ public class Address
         String [ ] cityAndPostalCode = parts [1].split( " " );
         this._postalCode = cityAndPostalCode [0];
         this._city = cityAndPostalCode [1];
+    }
+
+    public String getIdAddress( )
+    {
+        return this._idAddress;
     }
 
     public String getAddressTypo()
@@ -125,7 +137,17 @@ public class Address
         return this._postalCode;
     }
 
-        public void setStreetNumber( String streetNumber )
+    public Long getGeoX( )
+    {
+        return this._geoX;
+    }
+
+    public Long getGeoY( )
+    {
+        return this._geoY;
+    }
+
+    public void setStreetNumber( String streetNumber )
     {
         this._streetNumber = streetNumber;
     }
@@ -155,28 +177,23 @@ public class Address
         this._addressLine2 = addressLine2;
     }
 
-    @JsonProperty( "City" )
     public void setCity( String city )
     {
         this._city = city;
     }
 
-    @JsonProperty( "PostalCode" )
     public void setPostalCode( String postalCode )
     {
         this._postalCode = postalCode;
     }
 
-    @JsonProperty( "GeoX" )
     public void setGeoX( Long geoX )
     {
         this._geoX = geoX;
     }
 
-    @JsonProperty( "GeoY" )
     public void setGeoY( Long geoY )
     {
         this._geoY = geoY;
     }
 }
-
