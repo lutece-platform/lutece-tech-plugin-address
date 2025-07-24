@@ -59,6 +59,10 @@
             <type>lutece-plugin</type>
         </dependency>
     </dependencies>
+
+    <properties>
+        <componentName>Address</componentName>
+    </properties>
   
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-tech-plugin-address.git</connection>
