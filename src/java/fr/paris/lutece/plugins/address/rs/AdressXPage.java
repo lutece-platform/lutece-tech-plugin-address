@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2026, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,31 +33,55 @@
  */
 package fr.paris.lutece.plugins.address.rs;
 
-/**
- * Rest Constants
- */
-public final class Constants
-{
-    public static final String API_PATH = "address/api";
-    public static final String VERSION_PATH = "/v{" + Constants.VERSION + "}";
-    public static final String ID_PATH = "/{" + Constants.ID + "}";
-    public static final String VERSION = "version";
-    public static final String ID = "id";
-    public static final String ID_SEARCH_ADR = "/searchAdr/{" + Constants.TERM + "}";
-    public static final String ID_SEARCH_LOCATION = "/searchLocation/{" + Constants.ADDRESS_ID + "}";
-    public static final String TERM = "term";
-    public static final String SECTOR = "sector";
-    public static final String ADDRESS_ID = "address_id";
+import fr.paris.lutece.plugins.address.service.IAddressService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.RequestParam;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.ResponseBody;
+import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
+import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
+import fr.paris.lutece.util.ReferenceList;
 
-    public static final String EMPTY_OBJECT = "{}";
-    public static final String ERROR_NOT_FOUND_VERSION = "Version not found";
-    public static final String ERROR_NOT_FOUND_RESOURCE = "Resource not found";
-    public static final String ERROR_BAD_REQUEST_EMPTY_PARAMETER = "Empty parameter";
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
+import java.rmi.RemoteException;
+import java.util.List;
+
+@Controller( xpageName = "address" )
+@ApplicationScoped
+@Named( "address.xpage.address" )
+public class AdressXPage extends MVCApplication
+{
+    // Parameters
+    private static final String PARAMETER_TERM = "term";
+    
+    @Inject
+    private IAddressService _addressService;
 
     /**
-     * Private constructor
+     * Search addresses matching the given term.
+     *
+     * @param terms the list of terms
+     * @return the JSON of matching addresses
      */
-    private Constants( )
+    @Action( value = "searchAdr" )
+    @ResponseBody
+    public ReferenceList searchAdr(@RequestParam(PARAMETER_TERM) List<String> terms)
     {
+        String strTerm = String.join("/", terms);
+
+        ReferenceList list = null;
+        try
+        {
+            list = _addressService.searchAddress( null, strTerm );
+        }
+        catch( RemoteException e )
+        {
+            AppLogService.error( e );
+        }
+
+        return list;
     }
 }

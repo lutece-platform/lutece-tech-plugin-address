@@ -7,11 +7,11 @@
 
 ## Introduction
 Plugin address
-## Search addresses
+## Recherche d'adresses
 
-Address search is exposed as an XPage action ( `page=address` , `action=searchAdr` ). It accepts one or several `term` parameters and returns the matching addresses as JSON (send an `Accept: application/json` header, otherwise the response is serialized as XML).
+La recherche d'adresses est exposée en tant qu'action XPage ( `page=address` , `action=searchAdr` ). Elle accepte un ou plusieurs paramètres `term` et renvoie les adresses correspondantes en JSON (envoyer un en-tête `Accept: application/json` , sinon la réponse est sérialisée en XML).
 
-Example URL (GET), with two `term` values :
+Exemple d'URL (GET), avec deux valeurs de `term` :
 
 ```
 
@@ -19,7 +19,7 @@ http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp?page=address&a
 				
 ```
 
-Example call with `curl` (POST) :
+Exemple d'appel avec `curl` (POST) :
 
 ```
 
@@ -30,7 +30,7 @@ curl -X POST "http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp"
 				
 ```
 
-A JS helper is also provided ( `webapp/WEB-INF/js/plugins/address/searchAddress.js` ) to call the action without building the request by hand. It accepts either a single term or a list of terms :
+Un helper JS est également fourni ( `webapp/WEB-INF/js/plugins/address/searchAddress.js` ) pour appeler l'action sans construire la requête à la main. Il accepte soit un terme unique, soit une liste de termes :
 
 ```
 

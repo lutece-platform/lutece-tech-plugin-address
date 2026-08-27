@@ -8,6 +8,41 @@
 			<subsection name="Introduction">
 				Plugin address
 			</subsection>
+			<subsection name="Search addresses">
+				<p>
+					Address search is exposed as an XPage action (<code>page=address</code>, <code>action=searchAdr</code>).
+					It accepts one or several <code>term</code> parameters and returns the matching addresses as JSON
+					(send an <code>Accept: application/json</code> header, otherwise the response is serialized as XML).
+				</p>
+				<p>
+					Example URL (GET), with two <code>term</code> values :
+				</p>
+				<pre>
+http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp?page=address&amp;action=searchAdr&amp;term=33&amp;term=rue
+				</pre>
+				<p>
+					Example call with <code>curl</code> (POST) :
+				</p>
+				<pre>
+curl -X POST "http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp" \
+  -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" \
+  -H "Accept: application/json" \
+  --data "page=address&amp;action=searchAdr&amp;term=33&amp;term=rue"
+				</pre>
+				<p>
+					A JS helper is also provided (<code>webapp/WEB-INF/js/plugins/address/searchAddress.js</code>) to call the
+					action without building the request by hand. It accepts either a single term or a list of terms :
+				</p>
+				<pre>
+searchAddress( 'paris' )
+    .then( items => console.log( items ) )
+    .catch( e => console.error( e ) );
+
+searchAddress( [ '33', 'rue' ] )
+    .then( items => console.log( items ) )
+    .catch( e => console.error( e ) );
+				</pre>
+			</subsection>
 		</section>
 	</body>
 </document>
