@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
 	<properties>
-		<title>Plugin</title>
+		<title>Plugin address</title>
 	</properties>
 	<body>
-		<section name="Plugin">
+		<section name="Plugin address">
 			<subsection name="Introduction">
+				Plugin address
+			</subsection>
+			<subsection name="Recherche d'adresses">
+				<p>
+					La recherche d'adresses est exposée en tant qu'action XPage (<code>page=address</code>, <code>action=searchAdr</code>).
+					Elle accepte un ou plusieurs paramètres <code>term</code> et renvoie les adresses correspondantes en JSON
+					(envoyer un en-tête <code>Accept: application/json</code>, sinon la réponse est sérialisée en XML).
+				</p>
+				<p>
+					Exemple d'URL (GET), avec deux valeurs de <code>term</code> :
+				</p>
+				<pre>
+http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp?page=address&amp;action=searchAdr&amp;term=33&amp;term=rue
+				</pre>
+				<p>
+					Exemple d'appel avec <code>curl</code> (POST) :
+				</p>
+				<pre>
+curl -X POST "http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp" \
+  -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" \
+  -H "Accept: application/json" \
+  --data "page=address&amp;action=searchAdr&amp;term=33&amp;term=rue"
+				</pre>
+				<p>
+					Un helper JS est également fourni (<code>webapp/WEB-INF/js/plugins/address/searchAddress.js</code>) pour appeler
+					l'action sans construire la requête à la main. Il accepte soit un terme unique, soit une liste de termes :
+				</p>
+				<pre>
+searchAddress( 'paris' )
+    .then( items => console.log( items ) )
+    .catch( e => console.error( e ) );
+
+searchAddress( [ '33', 'rue' ] )
+    .then( items => console.log( items ) )
+    .catch( e => console.error( e ) );
+				</pre>
 			</subsection>
 		</section>
 	</body>
