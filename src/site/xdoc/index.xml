@@ -15,13 +15,11 @@
 					(send an <code>Accept: application/json</code> header, otherwise the response is serialized as XML).
 				</p>
 				<p>
-					Example URL (GET), with two <code>term</code> values :
+					<code>searchAdr</code> is an MVC action: call it with POST. A GET request on an action is logged by the core
+					and refused (405 Method Not Allowed) when <code>lutece.mvc.action.getPolicy=refuse</code>.
 				</p>
-				<pre>
-http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp?page=address&amp;action=searchAdr&amp;term=33&amp;term=rue
-				</pre>
 				<p>
-					Example call with <code>curl</code> (POST) :
+					Example call with <code>curl</code> (POST), with two <code>term</code> values :
 				</p>
 				<pre>
 curl -X POST "http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp" \

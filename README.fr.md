@@ -11,15 +11,9 @@ Plugin address
 
 La recherche d'adresses est exposée en tant qu'action XPage ( `page=address` , `action=searchAdr` ). Elle accepte un ou plusieurs paramètres `term` et renvoie les adresses correspondantes en JSON (envoyer un en-tête `Accept: application/json` , sinon la réponse est sérialisée en XML).
 
-Exemple d'URL (GET), avec deux valeurs de `term` :
+`searchAdr` est une action MVC : l'appeler en POST. Une requête GET sur une action est journalisée par le core et refusée (405 Method Not Allowed) quand `lutece.mvc.action.getPolicy=refuse`.
 
-```
-
-http://lutece-site/lutece-test-1.0.0-SNAPSHOT/jsp/site/Portal.jsp?page=address&action=searchAdr&term=33&term=rue
-				
-```
-
-Exemple d'appel avec `curl` (POST) :
+Exemple d'appel avec `curl` (POST), avec deux valeurs de `term` :
 
 ```
 
